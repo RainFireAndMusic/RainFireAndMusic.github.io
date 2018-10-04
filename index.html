@@ -1,0 +1,384 @@
+<style>
+
+body{
+  overflow: hidden;
+  }
+
+#mainContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+}
+
+#globalplaypause{
+    background: rgb(255, 255, 255, .1);
+    color: #fff;
+    border: none;
+    padding: 25px 25px;
+    outline: none;
+    position: relative;
+	width: 100%;
+}
+
+#globalplaypause:hover {
+    background: rgb(255, 255, 255, .15);
+}
+
+#globalplaypause:active{
+    background: rgb(255, 255, 255, .2);
+}
+
+#playerContainer{
+	align-items: center; 
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.player{
+	opacity: 0.5;
+	transition: opacity 0.1s ease-in-out;
+}
+
+.player:hover{
+	opacity: 1;
+}
+
+#dummyDiv{
+	height: 25%;
+}
+
+#background {
+  position:absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+#stars, #twinkling, #ambientOcclusion {
+  position:absolute;
+  
+  left:0;
+  right:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+@webkit-keyframes ambientOcclusionBrightnessAnimation {
+0% {filter: brightness(100%);}
+50% {filter: brightness(250%);}
+100% {filter: brightness(100%);}
+}
+
+@-webkit-keyframes ambientOcclusionColorAnimation {  
+  0%  { background-color: rgb(10, 10, 50, 1);}
+  17% { background-color: rgb(10, 50, 50, 1);}
+  33% { background-color: rgb(10, 50, 10, 1);}
+  50% { background-color: rgb(50, 50, 10, 1);}
+  66% { background-color: rgb(50, 10, 10, 1);}
+  83% { background-color: rgb(50, 10, 50, 1);}
+  99% { background-color: rgb(10, 10, 50, 1);}
+}
+
+
+#ambientOcclusion{
+	background-color: rgb(0, 0, 35, 1);
+  -webkit-mask-image: -webkit-gradient(linear, center top, 
+    center bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,1)));
+    transition: background-color 15000ms, filter 2500ms; /*TODO: brightness animation doesn't work*/
+    -webkit-animation:ambientOcclusionColorAnimation 90s infinite, ambientOcclusionBrightnessAnimation 5s;
+	height: 40%;
+	z-index: 0;
+	bottom: 0px;
+}
+
+#stars {
+  background:#000 url(https://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+  z-index: -3;
+}
+
+#twinkling{
+  background:transparent url(https://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+  z-index: -2;
+
+  -moz-animation:move-twink-back 200s linear infinite;
+  -ms-animation:move-twink-back 200s linear infinite;
+  -o-animation:move-twink-back 200s linear infinite;
+  -webkit-animation:move-twink-back 200s linear infinite;
+  animation:move-twink-back 200s linear infinite;
+}
+
+@keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-webkit-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-moz-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-ms-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+
+#shootingStarContainer {
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  z-index: -1;
+  overflow: hidden;
+position:absolute;
+  margin-top:0%;
+  margin-left:0%;
+}
+
+#shootingStar {
+  transform: rotate(45deg);
+  margin-top: -200px;
+  height: 1px;
+  width: 200px;
+  z-index: 11;
+  background-color: /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+100 */
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=1);  /* IE6-9 */
+  opacity: 0;
+  margin-left: -200px;
+}
+
+.flipped {
+  transform: rotate(135deg) !important;
+  animation: fadeInOutFlipped 3s 1s 1 !important;
+}
+
+.animate {
+  animation: fadeInOut 3s 1s 1;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    -webkit-box-shadow: 9px 2px 16px 0px rgba(252, 252, 252, 0.1);
+    -moz-box-shadow: 9px 2px 16px 0px rgba(252, 252, 252, 0.1);
+    box-shadow: 9px 2px 16px 0px rgba(252, 252, 252, 0.1);
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    margin-left: 75%;
+    margin-top: 80%;
+
+  }
+}
+
+@keyframes fadeInOutFlipped {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    -webkit-box-shadow: 9px 2px 16px 0px rgba(252, 252, 252, 0.1);
+    -moz-box-shadow: 9px 2px 16px 0px rgba(252, 252, 252, 0.1);
+    box-shadow: 9px 2px 16px 0px rgba(252, 252, 252, 0.1);
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    margin-right: 75%;
+    margin-top: 80%;
+
+  }
+}
+
+</style>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>(︶ω︶)</title>
+	</head>
+	<body>
+		<div id="background">
+			<div id="nightBackground">
+				<div id="stars"></div>
+				<div id="twinkling"></div>
+				<div id="shootingStarContainer">
+				  <div id="shootingStar" class = ""></div>
+				</div>
+				<div id="ambientOcclusion"></div>
+			</div>
+		</div>
+		<div id="mainContainer">
+			<button id="globalplaypause" onclick="playorpauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
+			<div id="playerContainer">
+				<div class="player" id="player2"></div>
+				<div class="player" id="player1"></div>
+				<div class="player" id="player3"></div>
+			</div>
+			<div id="dummyDiv"/>
+		</div>
+	</body>
+</html>
+
+ <script>
+	//Youtube videos	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	// 2. This code loads the IFrame Player API code asynchronously.
+	var tag = document.createElement('script');
+
+	tag.src = "https://www.youtube.com/iframe_api";
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+	// 3. This function creates an <iframe> (and YouTube player)
+	//    after the API code downloads.
+	var player1;
+	var player2;
+	var player3;
+	function onYouTubeIframeAPIReady() {
+	player1 = new YT.Player('player1', {
+		height: '295',
+		width: '525',
+		videoId: 'hHW1oY26kxQ',
+		events: {
+			'onReady': onPlayerReady
+		}
+	});
+	player2 = new YT.Player('player2', {
+		height: '239',
+		width: '425',
+		videoId: 'ZY3J3Y_OU0w',
+		events: {
+		'onReady': onPlayerReady
+		}
+	});
+	player3 = new YT.Player('player3', {
+		height: '239',
+		width: '425',
+		videoId: 'aDfZ6STAfqA',
+		events: {
+		'onReady': onPlayerReady
+		}
+	});
+	}
+				
+	// 4. The API will call this function when the video player is ready.
+	function onPlayerReady(event) {
+		event.target.seekTo(0);
+		event.target.playVideo();
+	}
+
+	function playorpauseVideos() {
+		if(player1.getPlayerState() == 1 || player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
+			player1.pauseVideo();
+			player2.pauseVideo();
+			player3.pauseVideo();
+		}else{
+			player1.playVideo();
+			player2.playVideo();
+			player3.playVideo();
+		}
+	}
+	//Youtube videos	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	  
+	//Shooting stars	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	function LoopAnimate() {
+	// Add animation class to star after 5 secons
+		setTimeout(function() {
+			document.getElementById("shootingStar").className += " animate";
+		}, 5000);
+		// remove animation class after 9seconds
+		setTimeout(function() {
+			var star = document.getElementById("shootingStar"),
+			  starCont = document.getElementById("shootingStarContainer");
+			randomMargin();
+			//randomFlipped(); //TODO: flipped class doesn't actually flip
+			star.className = star.className.replace(" animate", "");
+		}, 9000);
+	}
+
+	//function to add a random margin
+	function randomMargin() {
+		const ANIMATIONWIDTH = 220 ;
+		var topnum = Math.floor(Math.random() * 60),
+			starCont = document.getElementById("shootingStarContainer"),
+			starContMargin = getComputedStyle(starCont).getPropertyValue("margin-top");
+		topnum += "%";
+		var leftnum = Math.floor(Math.random() * 85),
+			starCont = document.getElementById("shootingStarContainer"),
+			starContMargin = getComputedStyle(starCont).getPropertyValue("margin-left");
+		leftnum += "%";
+
+		starCont.style.marginTop = topnum;
+		starCont.style.marginLeft = leftnum;
+	}
+	
+	$(document).ready(function(){
+		// Call LoopAnimate every 10 seconds
+		LoopAnimate();
+		window.setInterval(function() {
+			LoopAnimate();
+		}, 10000);
+	});
+	
+	function randomFlipped(){
+		starCont = document.getElementById("shootingStarContainer")
+		starCont.className.replace(" flipped","");
+		
+		if(Math.floor(Math.random() * 2) === 0){
+			startCont.className += " flipped";
+		}
+	}
+	//Shooting stars		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		
+	//background movement	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	var lFollowX = 0,
+		lFollowY = 0,
+		x = 0,
+		y = 0,
+		friction = 1 / 30;
+
+	function moveBackground() {
+		x += (lFollowX - x) * friction;
+		y += (lFollowY - y) * friction;
+
+		translate = 'translate(' + x + 'px, ' + y + 'px) scale(1.1)';
+
+		$('#background').css({
+			'-webit-transform': translate,
+			'-moz-transform': translate,
+			'transform': translate
+		});
+
+	  window.requestAnimationFrame(moveBackground);
+	}
+
+	$(window).on('mousemove click', function(e) {
+		var lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
+		var lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
+		lFollowX = (20 * lMouseX) / 100; // 100 : 12 = lMouxeX : lFollow
+		lFollowY = (10 * lMouseY) / 100;
+
+	});
+
+	moveBackground();
+	//background movement	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</script>
