@@ -7,18 +7,36 @@ body{
 #mainContainer{
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
 }
 
-#globalplaypause{
-    background: rgb(255, 255, 255, .1);
+button {
+    background: rgb(0, 0, 0, 0);
     color: #fff;
     border: none;
-    padding: 25px 25px;
     outline: none;
     position: relative;
+}
+
+#fullscreen {
+    padding: 3px 3px;
+	float: right;
+}
+
+#fullscreen:hover{
+    cursor: pointer;
+    padding: 1px 1px;
+} 
+
+#fullscreen:hover i{
+	font-size: 28px;
+}
+
+#globalplaypause {
+    background: rgb(255, 255, 255, .1);
+    padding: 25px 25px;
 	width: 100%;
 }
 
@@ -46,7 +64,7 @@ body{
 }
 
 #dummyDiv{
-	height: 10%;
+	height: 25%;
 }
 
 #background {
@@ -462,6 +480,9 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 			</div>
 		</div>
 		<div id="mainContainer">
+			<div id="controls">
+				<button id="fullscreen" onclick="openOrCloseFullscreenWindow()"><i class="material-icons">fullscreen</i></button>
+			</div>
 			<button id="globalplaypause" onclick="playorpauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
 			<div id="playerContainer">
 				<div class="player" id="player2"></div>
@@ -476,6 +497,38 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 </html>
 
  <script>
+	//General funcs		vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	function openOrCloseFullscreenWindow() {
+		var elem = document.documentElement;
+		
+		if (window.fullscreened){ 
+			if (document.exitFullscreen) { //Fullscreened
+				document.exitFullscreen();
+			} else if (document.mozCancelFullScreen) { /* Firefox */
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+				document.webkitExitFullscreen();
+			} else if (document.msExitFullscreen) { /* IE/Edge */
+				document.msExitFullscreen();
+			}
+			window.fullscreened = false;
+		}
+		else{
+			if (elem.requestFullscreen) {
+				elem.requestFullscreen();
+			} else if (elem.mozRequestFullScreen) { /* Firefox */
+				elem.mozRequestFullScreen();
+			} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+				elem.webkitRequestFullscreen();
+			} else if (elem.msRequestFullscreen) { /* IE/Edge */
+				elem.msRequestFullscreen();
+			}
+			window.fullscreened = true;
+		}
+	}
+	
+	//General funcs		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
 	//Youtube videos	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
