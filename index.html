@@ -501,7 +501,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	function openOrCloseFullscreenWindow() {
 		var elem = document.documentElement;
 		
-		if (window.fullscreened){ 
+		if (window.isFullscreened){ 
 			if (document.exitFullscreen) { //Fullscreened
 				document.exitFullscreen();
 			} else if (document.mozCancelFullScreen) { /* Firefox */
@@ -511,7 +511,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 			} else if (document.msExitFullscreen) { /* IE/Edge */
 				document.msExitFullscreen();
 			}
-			window.fullscreened = false;
+			window.isFullscreened = false;
 		}
 		else{
 			if (elem.requestFullscreen) {
@@ -523,7 +523,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 			} else if (elem.msRequestFullscreen) { /* IE/Edge */
 				elem.msRequestFullscreen();
 			}
-			window.fullscreened = true;
+			window.isFullscreened = true;
 		}
 	}
 	
@@ -649,35 +649,31 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	  66: 'b'
 	};
 
-	// the 'official' Konami Code sequence
 	var konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a'];
-
-	// a variable to remember the 'position' the user has reached so far.
 	var konamiCodePosition = 0;
 
-	// add keydown event listener
 	document.addEventListener('keydown', function(e) {
-	  // get the value of the key code from the key map
+	  if(window.logKeys){
+		console.log(e.keyCode);
+	  }
+	  
 	  var key = allowedKeys[e.keyCode];
-	  // get the value of the required key from the konami code
 	  var requiredKey = konamiCode[konamiCodePosition];
 
-	  // compare the key with the required key
 	  if (key == requiredKey) {
-
-		// move to the next key in the konami code sequence
 		konamiCodePosition++;
 
-		// if the last key is reached, activate cheats
 		if (konamiCodePosition == konamiCode.length) {
 		  activateCheats();
 		  konamiCodePosition = 0;
 		}
 	  } else {
 		konamiCodePosition = 0;
-		if (e.keyCode == 70) {//f
-			console.log("pay respects o7")
-			openOrCloseFullscreenWindow();
+		switch (e.keyCode){
+			case 70: //f
+				console.log("pay respects o7")
+				openOrCloseFullscreenWindow();
+				break;
 		}
 	  }
 	});
@@ -686,6 +682,24 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	  console.log("cheats activated");
 	}
 	//keybinds 				^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	// exit fullscreen      vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	if (document.addEventListener)
+	{
+		document.addEventListener('webkitfullscreenchange', exitHandler, false);
+		document.addEventListener('mozfullscreenchange', exitHandler, false);
+		document.addEventListener('fullscreenchange', exitHandler, false);
+		document.addEventListener('MSFullscreenChange', exitHandler, false);
+	}
+
+	function exitHandler()
+	{
+		if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement)
+		{
+			window.isFullscreened = false;
+		}
+	}
+	// exit fullscreen      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 	//Shooting stars		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 		
