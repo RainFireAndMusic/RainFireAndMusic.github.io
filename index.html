@@ -4,7 +4,7 @@ body{
   overflow: hidden;
   }
 
-#mainContainer{
+#contentContainer{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -63,6 +63,46 @@ button {
 	opacity: 1;
 }
 
+.videoContainer {
+	position: relative;
+}
+.videoContainer:hover div {
+	visibility: visible; 
+}
+
+div[id$="MusicSources"] {
+	background: rgb(255, 255, 255, .03);
+	border-radius: 0px 0px 7px 7px;
+	bottom: -120px;
+	visibility: hidden; 
+	height: 100px;
+	width: calc(100% - 20px);
+	padding: 10px;
+	position: absolute;
+	right: 0;
+}
+
+div[id$="MusicSources"] img{
+	opacity: .5;
+}
+
+div[id$="MusicSources"]:hover {
+    background: rgb(255, 255, 255, .07);
+}
+
+div[id$="MusicSources"]:hover img {
+	opacity: .6;
+}
+
+div[id$="MusicSources"] img:hover{
+	opacity: .85;
+    cursor: pointer;
+}
+
+div[id$="MusicSources"] img:active{
+	opacity: 1;
+}
+
 #dummyDiv{
 	height: 25%;
 }
@@ -87,12 +127,12 @@ button {
 }
 
 #stars {
-  background:#000 url(stars.png) repeat top center;
+  background:#000 url(Images/stars.png) repeat top center;
   z-index: -3;
 }
 
 #twinkling{
-  background:transparent url(twinkling.png) repeat top center;
+  background:transparent url(Images/twinkling.png) repeat top center;
   z-index: -2;
 
   -moz-animation:move-twink-back 200s linear infinite;
@@ -480,15 +520,24 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 				</article>
 			</div>
 		</div>
-		<div id="mainContainer">
+		<div id="contentContainer">
 			<div id="controls">
 				<button id="fullscreen" onclick="openOrCloseFullscreenWindow()"><i class="material-icons">fullscreen</i></button>
 			</div>
 			<button id="globalplaypause" onclick="playorpauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
 			<div id="playerContainer">
-				<div class="player" id="player2"></div>
-				<div class="player" id="player1"></div>
-				<div class="player" id="player3"></div>
+				<div class="videoContainer">
+					<div class="player" id="player2"></div>
+				</div>
+				<div class="videoContainer">
+					<div class="player" id="player1"></div>
+					<div id="player1MusicSources">
+					
+					</div>
+				</div>
+				<div class="videoContainer">
+					<div class="player" id="player3"></div>
+				</div>
 			</div>
 			<div id="dummyDiv">
 				<h2 id="REVerseWatermark">REVerse</h2>
@@ -533,7 +582,12 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	//Youtube videos	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
+	
+//	http://img.youtube.com/vi/LsBrT6vbQa8/0.jpg
 
+	var streamIds = ["hHW1oY26kxQ","LsBrT6vbQa8", "6rReMbO42uE"]
+	var selectedStreamIndex = 0;
+	
 	tag.src = "https://www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -547,7 +601,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	player1 = new YT.Player('player1', {
 		height: '295',
 		width: '525',
-		videoId: 'hHW1oY26kxQ',
+		videoId: streamIds[selectedStreamIndex],
 		events: {
 			'onReady': onPlayerReady
 		}
@@ -589,6 +643,28 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 			player3.playVideo();
 		}
 	}
+	
+	function reloadPlayer1(streamId){
+		selectedStreamIndex = streamIds.indexOf(streamId);
+		player1.loadVideoById(streamId);
+		populateStreamList();
+	}
+	
+	//Populate the list of other streams
+	function populateStreamList() {
+		$("#player1MusicSources").empty();
+		for (let c=0; c<streamIds.length; c++){
+			if (c == selectedStreamIndex) {continue;}
+			var element = document.createElement("img");
+			$(element).height('100px');
+			$(element).attr("src", "http://img.youtube.com/vi/" + streamIds[c] + "/0.jpg");
+			$(element).attr("onclick", "reloadPlayer1('" + streamIds[c] + "')");
+			$(element).css("padding-left", "10px");
+			$("#player1MusicSources").append(element);
+			
+		}
+	}
+	
 	//Youtube videos	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	  
 	//Shooting stars	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -629,6 +705,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 		window.setInterval(function() {
 			LoopAnimate();
 		}, 10000);
+		populateStreamList()
 	});
 	
 	function randomFlipped(){
