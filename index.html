@@ -73,14 +73,17 @@ button {
 div[id$="MusicSources"] {
 	background: rgb(255, 255, 255, .03);
 	border-radius: 0px 0px 7px 7px;
-	bottom: -110px;
+	bottom: -160px;
 	visibility: hidden; 
 	height: 100px;
 	width: calc(100% - 20px - 20px);
 	margin-right: 15px; 
-	padding: 5px;
+	padding: 25px 20px 35px 10px;
 	position: absolute;
 	right: 0;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	white-space: nowrap;
 }
 
 div[id$="MusicSources"] img{
@@ -102,6 +105,27 @@ div[id$="MusicSources"] img:hover{
 
 div[id$="MusicSources"] img:active{
 	opacity: 1;
+}
+
+div[id$="MusicSources"]::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: dark-grey;
+}
+
+div[id$="MusicSources"]::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: dark-grey;
+}
+
+div[id$="MusicSources"]::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	width: 1px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: grey;
 }
 
 #dummyDiv{
@@ -585,8 +609,9 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	var tag = document.createElement('script');
 	
 //	http://img.youtube.com/vi/LsBrT6vbQa8/0.jpg
-
-	var streamIds = ["hHW1oY26kxQ","LsBrT6vbQa8", "6rReMbO42uE"]
+	//var lofiStreamIds = ["hHW1oY26kxQ","LsBrT6vbQa8", "6rReMbO42uE"]
+	//var jazzStreamIds = ["2ccaHpy5Ewo","Vls4h1GAP", ""]
+	var streamIds = ["hHW1oY26kxQ","LsBrT6vbQa8", "6rReMbO42uE", "2ccaHpy5Ewo", "rgy5auvWTOc", "Vls4h1GAP-c"]
 	var selectedStreamIndex = 0;
 	
 	tag.src = "https://www.youtube.com/iframe_api";
