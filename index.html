@@ -80,9 +80,9 @@ div[id$="MusicSources"] {
 	bottom: -155px; /* 0 - height - padding-top - padding-bottom */
 	visibility: hidden; 
 	height: 100px;
-	width: calc(100% - 60px); /* subtracted value is ((margin-right*2) + padding-right + padding-left) */
+	width: calc(100% - 70px); /* subtracted value is ((margin-right*2) + padding-right + padding-left) */
 	margin-right: 15px; 
-	padding: 20px 20px 35px 10px; /* padding-bottom = padding-top + scrollbar height */
+	padding: 20px 20px 35px 20px; /* padding-bottom = padding-top + scrollbar height */
 	position: absolute;
 	right: 0;
 	overflow-x: scroll;
@@ -679,7 +679,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 		populateStreamList();
 	}
 	
-	//Populate the list of other streams
+	//Populate the list of streams
 	function populateStreamList() {
 		$("#player1MusicSources").empty();
 		for (let c=0; c<streamIds.length; c++){
