@@ -704,7 +704,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 				$(musicLevelsElement).css("position", "absolute");
 				$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 15 + "px"); //15 = horizontal scrollbar height
 				$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")));
-				$(musicLevelsElement).css("filter", "hue-rotate(210deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
+				$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
 				
 				$("#player1MusicSources").append(musicLevelsElement);
 			}
