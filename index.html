@@ -34,18 +34,59 @@ button {
 	font-size: 28px;
 }
 
+#globalplaylausecontainer{
+	position: relative;
+	align-self: center;
+	margin-top: -28px;
+	width: 125px;
+	height: 125px;
+}
+
 #globalplaypause {
-    background: rgb(255, 255, 255, .03);
-    padding: 25px 25px;
+    background-color: rgb(255, 255, 255, .03);
+	border-radius: 100%;
+	top: 0px;
+	height: 100%;
 	width: 100%;
+	position: absolute;
+	cursor: pointer;
+	-webkit-text-stroke: 2px black;
+}
+
+#moon{
+	position: absolute;
+	height: 123px;
+	width: 123px;
+    padding-left: 1px;
+    padding-top: 1px;
+	filter: brightness(.7);
+}
+
+#mooncolor{
+	border-radius: 100%;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	opacity: .15;
+}
+
+#moonphase{
+	background: black;
+	background-clip: padding-box;
+	border-radius: 100%;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	transform: rotateZ(-25deg);
+	opacity: .9;
 }
 
 #globalplaypause:hover {
-    background: rgb(255, 255, 255, .07);
+    background-color: rgb(255, 255, 255, .07);
 }
 
 #globalplaypause:active{
-    background: rgb(255, 255, 255, .12);
+    background-color: rgb(255, 255, 255, .12);
 }
 
 #playerContainer{
@@ -74,19 +115,51 @@ img.selectedStreamOverlay{
 	pointer-events: none;
 }
 
+#genreTabStrip, #genreTabStrip li {
+all: unset;
+	height: 1em;
+    background-color: none;
+}
+
+#genreTabStrip li a{
+	all: unset;
+	font-size: small;
+	padding: 10px;
+	color: white;
+	
+    background: rgb(255, 255, 255, .03);
+}
+
+#genreTabStrip li a:hover{
+    background: rgb(255, 255, 255, .09);
+	cursor: pointer;
+}
+
+#genreTabStrip li a:active{
+    background: rgb(255, 255, 255, .12);
+}
+
+#genreTabStrip li.ui-tabs-active a{
+	padding-top: 13px;
+	text-shadow:0px 0px 1px white;
+	font-size: medium;
+    background: rgb(255, 255, 255, .06);
+}
+
 div[id$="MusicSources"] {
+	border: unset !important;
+	border-radius: 0px 0px 10px 10px !important;
 	background: rgb(255, 255, 255, .05);
-	border-radius: 0px 0px 7px 7px;
-	bottom: -155px; /* 0 - height - padding-top - padding-bottom */
+	bottom: -182px; /* 0 - height - padding-top - padding-bottom */
 	visibility: hidden; 
-	height: 100px;
+	height: 127px;
 	width: calc(100% - 70px); /* subtracted value is ((margin-right*2) + padding-right + padding-left) */
 	margin-right: 15px; 
 	padding: 20px;
 	padding-bottom: 35px; /* padding-top + scrollbar height */
 	position: absolute;
 	right: 0;
-	overflow-x: scroll;
+	/*overflow-x: scroll;*/
 	overflow-y: hidden;
 	white-space: nowrap;
 }
@@ -112,20 +185,20 @@ div[id$="MusicSources"] img:active{
 	opacity: 1;
 }
 
-div[id$="MusicSources"]::-webkit-scrollbar-track
+div[id$="MusicSources"]::-webkit-scrollbar-track, div[id$="MusicSources"]::-moz-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	border-radius: 10px;
 	background-color: dark-grey;
 }
 
-div[id$="MusicSources"]::-webkit-scrollbar
+div[id$="MusicSources"]::-webkit-scrollbar, div[id$="MusicSources"]::-moz-scrollbar
 {
 	height: 15px; /* Changing this value will affect the positioning of elements created in "populateStreamList()". You will need to update this value there if changed here. */
 	background-color: dark-grey;
 }
 
-div[id$="MusicSources"]::-webkit-scrollbar-thumb
+div[id$="MusicSources"]::-webkit-scrollbar-thumb, div[id$="MusicSources"]::-moz-scrollbar-thumb
 {
 	border-radius: 10px;
 	width: 1px;
@@ -513,11 +586,20 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
     opacity: 0.4;
 }
 
+  .ui-tabs-vertical { width: 55em; }
+  .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+  .ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+  .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+  .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; }
+  .ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right;}
+
 </style>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Alegreya Sans' rel='stylesheet'>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -554,7 +636,12 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 			<div id="controls">
 				<button id="fullscreen" onclick="openOrCloseFullscreenWindow()"><i class="material-icons">fullscreen</i></button>
 			</div>
-			<button id="globalplaypause" onclick="playorpauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
+			<div id="globalplaylausecontainer">
+				<img id="moon" src="Images/moon.png"/>
+				<button id="mooncolor"/>
+				<button id="moonphase"/>
+				<button id="globalplaypause" onclick="playorpauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
+			</div>
 			<div id="playerContainer">
 				<div class="videoContainer">
 					<div class="player" id="player2"></div>
@@ -562,7 +649,8 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 				<div class="videoContainer">
 					<div class="player" id="player1"></div>
 					<div id="player1MusicSources">
-					
+						<ul id="genreTabStrip">
+						</ul>
 					</div>
 				</div>
 				<div class="videoContainer">
@@ -610,20 +698,25 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	function randomNeonColor() {
 		var sick_neon_colors = ["#CB3301", "#FF0066", "#FF6666", "#FEFF99", "#FFFF67", "#CCFF66", "#99FE00", "#EC8EED", "#FF99CB", "#FE349A", "#CC99FE", "#6599FF", "#03CDFF", "#FFFFFF"];
 		return sick_neon_colors[Math.floor(Math.random()*sick_neon_colors.length)];
-	};
-	
+	};	
 	//General funcs		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
 	//Youtube videos	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
 	
-	//var lofiStreamIds = ["hHW1oY26kxQ","6Stj0jKBh8M", "F0IbjVq-fgs"]
-	//var jazzStreamIds = ["2ccaHpy5Ewo","Vls4h1GAP", ""]
-	var streamIds = ["hHW1oY26kxQ","6Stj0jKBh8M", "F0IbjVq-fgs", "2ccaHpy5Ewo", "rgy5auvWTOc", "Vls4h1GAP-c"]
+	var lofiStreamIds = ["hHW1oY26kxQ", "bebuiaSKtU4", "F0IbjVq-fgs"]
+	var jazzStreamIds = ["Dx5qFachd3A", "DSGyEsJ17cI", "mqWdCpecKpw"]
+	
+	var streamIds = {};
+	streamIds["Lofi Hip Hop"] = lofiStreamIds;
+	streamIds["Jazz"] = jazzStreamIds;
+	
+	var streamGenres = Object.keys(streamIds);
+	var selectedStreamGenre = streamGenres[0];
 	var selectedStreamIndex = 0;
 	
-	tag.src = "https://www.youtube.com/iframe_api";
+	tag.src = "http://www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
@@ -634,14 +727,16 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	var player3;
 	function onYouTubeIframeAPIReady() {
 	player1 = new YT.Player('player1', {
+		host: 'http://www.youtube.com',
 		height: '295',
 		width: '525',
-		videoId: streamIds[selectedStreamIndex],
+		videoId: streamIds[selectedStreamGenre][selectedStreamIndex],
 		events: {
 			'onReady': onPlayerReady
 		}
 	});
 	player2 = new YT.Player('player2', {
+		host: 'http://www.youtube.com',
 		height: '239',
 		width: '425',
 		videoId: 'ZY3J3Y_OU0w',
@@ -650,6 +745,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 		}
 	});
 	player3 = new YT.Player('player3', {
+		host: 'http://www.youtube.com',
 		height: '239',
 		width: '425',
 		videoId: 'aDfZ6STAfqA',
@@ -668,6 +764,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	}
 
 	function playorpauseVideos() {
+		setMoonPhase();
 		if(player1.getPlayerState() == 1 || player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
 			player1.pauseVideo();
 			player2.pauseVideo();
@@ -680,42 +777,71 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	}
 	
 	function reloadPlayer1(streamId){
-		selectedStreamIndex = streamIds.indexOf(streamId);
+		$.each(streamIds, function(key, streamIdsInGenre){
+			if($.inArray(streamId, streamIdsInGenre) > -1){
+				selectedStreamGenre = key;
+				return false;
+			}
+		});
+		
+		selectedStreamIndex = streamIds[selectedStreamGenre].indexOf(streamId);
 		player1.loadVideoById(streamId);
 		populateStreamList();
 	}
 	
 	//Populate the list of streams
 	function populateStreamList() {
-		$("#player1MusicSources").empty();
-		for (let c=0; c<streamIds.length; c++){
-			var streamThumbnailElement = document.createElement("img");
-			$(streamThumbnailElement).height('100px');
-			$(streamThumbnailElement).width('133px');
-			$(streamThumbnailElement).attr("src", "http://img.youtube.com/vi/" + streamIds[c] + "/0.jpg");
-			$(streamThumbnailElement).attr("onclick", "reloadPlayer1('" + streamIds[c] + "')");
-			$("#player1MusicSources").append(streamThumbnailElement);
+		$("#player1MusicSources *:not('#genreTabStrip')").remove();
+		
+		$.each(streamIds, function(key, streamIdsInGenre){
+			var genreTabElement = document.createElement("li");
+			var genreTabLink = document.createElement("a");
+			var keyAsId = key.replace(new RegExp(" ", "g"), "_") + "TabContent";
+			$(genreTabLink).attr("href", "#" + keyAsId);
+			$(genreTabLink).text(key);
+			$(genreTabElement).append(genreTabLink);
 			
-			if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
+			var genreTabContent =  document.createElement("div");
+			$(genreTabContent).attr("id", keyAsId);
 			
-			if (c == selectedStreamIndex) {
-				$(streamThumbnailElement).css("box-shadow", "white 0px 0px 10px 1px");
+			$("#genreTabStrip").append(genreTabElement);
+			$("#player1MusicSources").append(genreTabContent);
+			
+			for (let c=0; c < streamIdsInGenre.length; c++){
+				var streamThumbnailElement = document.createElement("img");
+				$(streamThumbnailElement).height('100px');
+				$(streamThumbnailElement).width('133px');
+				$(streamThumbnailElement).attr("src", "http://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
+				$(streamThumbnailElement).attr("onclick", "reloadPlayer1('" + streamIdsInGenre[c] + "')");
+				$(genreTabContent).append(streamThumbnailElement);
 				
-				var musicLevelsElement = document.createElement("img");
+				if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
+				else{$(streamThumbnailElement).css("margin-left", "0px");}
 				
-				$(musicLevelsElement).height($(streamThumbnailElement).height()/3);
-				$(musicLevelsElement).width($(streamThumbnailElement).width());
-				$(musicLevelsElement).attr("src", "Images/levels.gif");
-				$(musicLevelsElement).attr("class", "selectedStreamOverlay");
-				$(musicLevelsElement).css("position", "absolute");
-				$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 15 + "px"); //15 = horizontal scrollbar height
-				$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")));
-				$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
-				
-				$("#player1MusicSources").append(musicLevelsElement);
+				if (key == selectedStreamGenre && c == selectedStreamIndex) {
+					$(streamThumbnailElement).css("box-shadow", "white 0px 0px 10px 1px");
+					
+					var musicLevelsElement = document.createElement("img");
+					
+					$(musicLevelsElement).height($(streamThumbnailElement).height()/3);
+					$(musicLevelsElement).width($(streamThumbnailElement).width());
+					$(musicLevelsElement).attr("src", "Images/levels.gif");
+					$(musicLevelsElement).attr("class", "selectedStreamOverlay");
+					$(musicLevelsElement).css("position", "absolute");
+					$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 9 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 9 = a magic number. Sorry :T
+					$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")) + 12.5);
+					$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
+					
+					$(genreTabContent).append(musicLevelsElement);
+				}
 			}
-			
-		}
+		});				
+		
+		$("#player1MusicSources").tabs().tabs('destroy').tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+        $("#player1MusicSources li").removeClass('ui-corner-top').addClass('ui-corner-left');
+		
+		var indexOfSelectedStream = streamGenres.indexOf(selectedStreamGenre)
+		$("#genreTabStrip li a")[indexOfSelectedStream].click()
 	}
 	
 	//Youtube videos	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -731,7 +857,6 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 			var star = document.getElementById("shootingStar"),
 			  starCont = document.getElementById("shootingStarContainer");
 			randomMargin();
-			//randomFlipped(); //TODO: flipped class doesn't actually flip
 			star.className = star.className.replace(" animate", "");
 		}, 9000);
 	}
@@ -758,17 +883,76 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 		window.setInterval(function() {
 			LoopAnimate();
 		}, 10000);
-		populateStreamList()
+		populateStreamList();
+		setMoonPhase();
 	});
+	//Shooting stars		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
-	function randomFlipped(){
-		starCont = document.getElementById("shootingStarContainer")
-		starCont.className.replace(" flipped","");
+	//Moon Phase	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	function setMoonPhase(){
+		var moonPhaseElement = $("#moonphase");
+		moonPhaseElement.css("border", "none");
 		
-		if(Math.floor(Math.random() * 2) === 0){
-			startCont.className += " flipped";
+		var moonPercentThroughCycle = getMoonPercentThroughCycle();
+		var moonPercentFilled = (moonPercentThroughCycle * 2) <= 1 ? moonPercentThroughCycle * 2 : 1 - ((moonPercentThroughCycle * 2) - 1);
+		var moonPixelFilled = moonPercentFilled * moonPhaseElement.width();
+		
+		$("#mooncolor").css("background-color", randomNeonColor());
+		
+		if(moonPercentThroughCycle <= .25){
+			moonPhaseElement.css("border-right", moonPixelFilled + "px solid transparent");
+		} else if(moonPercentThroughCycle <= .5){
+			moonPhaseElement.css("border-left", moonPhaseElement.width() - moonPixelFilled + "px solid transparent");
+			
+			var backgroundColor = moonPhaseElement.css("background-color");
+			var borderColor = moonPhaseElement.css("border-color");
+			
+			moonPhaseElement.css("background-color", "transparent");
+			moonPhaseElement.css("border-color", "black");
+		
+		} else if(moonPercentThroughCycle <= .75){
+			moonPhaseElement.css("border-right", moonPhaseElement.width() - moonPixelFilled + "px solid transparent");
+			
+			var backgroundColor = moonPhaseElement.css("background-color");
+			var borderColor = moonPhaseElement.css("border-color");
+			
+			moonPhaseElement.css("background-color", "transparent");
+			moonPhaseElement.css("border-color", "black");
 		}
+		else{
+			moonPhaseElement.css("border-left", moonPixelFilled + "px solid transparent");
+		}
+		
 	}
+	
+	function getMoonPercentThroughCycle()
+	{	
+		var today = new Date();
+		var day = today.getDate();
+		var month = today.getMonth() + 1; //January is 0
+		var year = today.getFullYear();
+		
+		if (month < 3) {
+			year--;
+			month += 12;
+		}
+		
+		++month;
+		
+		var c = 365.25 * year;
+		var e = 30.6 * month;
+		var totalDaysElapsed = c + e + day - 694039.09; //totalDaysElapsed is total days elapsed
+		var totalDaysElapsedInt = 0;
+
+		totalDaysElapsed /= 29.5305882; //divide by the moon cycle
+
+		totalDaysElapsedInt = parseInt(totalDaysElapsed); //int(jd) -> b, take integer part of jd
+
+		totalDaysElapsed -= totalDaysElapsedInt; //subtract integer part to leave fractional part of original jd
+
+		return totalDaysElapsed;
+	}
+	//Moon Phase	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 	//kybinds				 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	var allowedKeys = {
@@ -832,38 +1016,4 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	}
 	// exit fullscreen      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
-	//Shooting stars		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-		
-	//background movement	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv    Disabled because it seems too active for a chill site
-	//var lFollowX = 0,
-	//	lFollowY = 0,
-	//	x = 0,
-	//	y = 0,
-	//	friction = 1 / 30;
-    //
-	//function moveBackground() {
-	//	x += (lFollowX - x) * friction;
-	//	y += (lFollowY - y) * friction;
-    //
-	//	translate = 'translate(' + x + 'px, ' + y + 'px) scale(1.1)';
-    //
-	//	$('#background').css({
-	//		'-webit-transform': translate,
-	//		'-moz-transform': translate,
-	//		'transform': translate
-	//	});
-    //
-	//  window.requestAnimationFrame(moveBackground);
-	//}
-    //
-	//$(window).on('mousemove click', function(e) {
-	//	var lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
-	//	var lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
-	//	lFollowX = (20 * lMouseX) / 100; // 100 : 12 = lMouxeX : lFollow
-	//	lFollowY = (20 * lMouseY) / 100;
-    //
-	//});
-
-	//moveBackground();    
-	//background movement	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 </script>
