@@ -707,12 +707,14 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
 	
-	var lofiStreamIds = ["hHW1oY26kxQ", "bebuiaSKtU4", "F0IbjVq-fgs"]
-	var jazzStreamIds = ["Dx5qFachd3A", "DSGyEsJ17cI", "mqWdCpecKpw"]
+	var lofiStreamIds = ["hHW1oY26kxQ", "bebuiaSKtU4", "F0IbjVq-fgs"];
+	var jazzStreamIds = ["Dx5qFachd3A", "DSGyEsJ17cI", "mqWdCpecKpw"];
+	var synthStreamIds = ["ucdEPGYYQN0", "gmCVjiksjao", "-Lby0BOf-N8"];
 	
 	var streamIds = {};
 	streamIds["Lofi Hip Hop"] = lofiStreamIds;
 	streamIds["Jazz"] = jazzStreamIds;
+	streamIds["Synth"] = synthStreamIds;
 	
 	var streamGenres = Object.keys(streamIds);
 	var selectedStreamGenre = streamGenres[0];
