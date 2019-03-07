@@ -97,15 +97,10 @@ button {
     justify-content: space-evenly;
 }
 
-.player{
+.videoContainer:not(:hover) .player{
 	-webkit-mask: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
 	opacity: 0.6;
 	transition: opacity 0.1s ease-in-out;
-}
-
-.player:hover{
-	-webkit-mask: none;
-	opacity: 1;
 }
 
 .videoContainer {
