@@ -905,6 +905,11 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 
 		starCont.style.marginTop = topnum;
 		starCont.style.marginLeft = leftnum;
+		
+		//Off the screen 75% of the time
+		if(Math.random() <= .75){
+			starCont.style.marginTop = "-100%";
+		}
 	}
 	
 	$(document).ready(function(){
