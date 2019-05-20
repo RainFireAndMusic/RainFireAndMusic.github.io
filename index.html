@@ -52,7 +52,7 @@ button {
 	-webkit-text-stroke: 2px black;
 }
 
-#moon{
+#moon, #moonEyes{
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -641,8 +641,9 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 			</div>
 			<div id="globalplaylausecontainer">
 				<img id="moon" src="Images/moon.png"/>
-				<button id="mooncolor"/>
-				<button id="moonphase"/>
+				<button id="moonphase"></button>
+				<img id="moonEyes" src="Images/zeldaMoonEyes.png" style="display: none"/>
+				<button id="mooncolor"></button>
 				<button id="globalplaypause" onclick="playorpauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
 			</div>
 			<div id="playerContainer">
@@ -1033,6 +1034,7 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	function activateCheats() {
 		$("#moon").attr("src", "Images/zeldaMoon.png");
 		$("#moon").css("left","-1px");
+		$("#moonEyes").show();
 		console.log("cheats activated");
 	}
 	//keybinds 				^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
