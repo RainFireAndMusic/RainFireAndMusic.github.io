@@ -893,22 +893,23 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 
 	//function to add a random margin
 	function randomMargin() {
-		const ANIMATIONWIDTH = 220 ;
-		var topnum = Math.floor(Math.random() * 60),
-			starCont = document.getElementById("shootingStarContainer"),
-			starContMargin = getComputedStyle(starCont).getPropertyValue("margin-top");
-		topnum += "%";
-		var leftnum = Math.floor(Math.random() * 85),
-			starCont = document.getElementById("shootingStarContainer"),
-			starContMargin = getComputedStyle(starCont).getPropertyValue("margin-left");
-		leftnum += "%";
-
-		starCont.style.marginTop = topnum;
-		starCont.style.marginLeft = leftnum;
-		
+		var starCont = document.getElementById("shootingStarContainer");
 		//Off the screen 75% of the time
 		if(Math.random() <= .75){
 			starCont.style.marginTop = "-100%";
+		}
+		else{
+			const ANIMATIONWIDTH = 220 ;
+			var topnum = Math.floor(Math.random() * 60),
+				starContMargin = getComputedStyle(starCont).getPropertyValue("margin-top");
+			topnum += "%";
+			var leftnum = Math.floor(Math.random() * 85),
+				starCont = document.getElementById("shootingStarContainer"),
+				starContMargin = getComputedStyle(starCont).getPropertyValue("margin-left");
+			leftnum += "%";
+
+			starCont.style.marginTop = topnum;
+			starCont.style.marginLeft = leftnum;
 		}
 	}
 	
