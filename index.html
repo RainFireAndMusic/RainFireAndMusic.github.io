@@ -102,6 +102,22 @@ button {
     background-color: rgb(255, 255, 255, .12);
 }
 
+#cheatCodeTextboxContainer{
+    position: absolute;
+    align-self: center;
+	max-height: 0px;
+}
+
+#cheatCodeTextbox{
+	text-align: center;
+	margin-top: .75em;
+	color: white;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 900;
+	font-size: 2em;
+	letter-spacing: .5em;
+}
+
 #playerContainer{
 	align-items: center; 
     display: flex;
@@ -654,6 +670,9 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 				<img id="moonEyes" src="Images/zeldaMoonEyes.png" style="display: none"/>
 				<button id="globalplaypause" onclick="playorpauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
 			</div>
+			<div id="cheatCodeTextboxContainer">
+				<div id="cheatCodeTextbox"></div>
+			</div>
 			<div id="playerContainer">
 				<div class="videoContainer">
 					<div class="playerContainer">
@@ -1010,36 +1029,53 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	  66: 'b'
 	};
 
+	var areCheatsLocked = false;
 	var konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a'];
 	var konamiCodePosition = 0;
+	var konamiCodeString = "↑↑↓↓←→←→BA";
 
 	document.addEventListener('keydown', function(e) {
 	  if(window.logKeys){
 		console.log(e.keyCode);
 	  }
 	  
-	  var key = allowedKeys[e.keyCode];
-	  var requiredKey = konamiCode[konamiCodePosition];
+	  if(!areCheatsLocked){
+		  var key = allowedKeys[e.keyCode];
+		  var requiredKey = konamiCode[konamiCodePosition];
 
-	  if (key == requiredKey) {
-		konamiCodePosition++;
+		  if (key == requiredKey) {
+			konamiCodePosition++;
+			$("#cheatCodeTextbox").text(konamiCodeString.substring(0, (konamiCodePosition)));
 
-		if (konamiCodePosition == konamiCode.length) {
-		  activateCheats();
-		  konamiCodePosition = 0;
-		}
-	  } else {
-		konamiCodePosition = 0;
-		switch (e.keyCode){
-			case 70: //f
-				console.log("Paying respects o7");
-				openOrCloseFullscreenWindow();
-				break;
-		}
+			if (konamiCodePosition == konamiCode.length) {
+			  activateCheats();
+			  konamiCodePosition = 0;
+			  $("#cheatCodeTextbox").css("color", "green");
+			  $("#cheatCodeTextbox").fadeOut(1000);
+			}
+		  } else {
+			areCheatsLocked = true;
+			konamiCodePosition = 0;
+			$("#cheatCodeTextbox").css("color", "red");
+			$("#cheatCodeTextbox").fadeOut(1000);
+			setTimeout(function(){
+			$("#cheatCodeTextbox").css("color", "white");
+				$("#cheatCodeTextbox").text("");
+				areCheatsLocked = false;
+				$("#cheatCodeTextbox").fadeIn();
+			},1000);
+		  }
 	  }
+	  switch (e.keyCode){
+				case 70: //f
+					console.log("Paying respects o7");
+					openOrCloseFullscreenWindow();
+					break;
+			}
 	});
 
 	function activateCheats() {
+		areCheatsLocked = true;
 		$("#moon").hide();
 		$("#mooncolor").hide();
 		$("#zeldaMoon").show();
