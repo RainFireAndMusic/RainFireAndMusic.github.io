@@ -752,10 +752,12 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
 	
+	//var lofiStreamUserIds = ["UCSJ4gkVC6NrvII8umztf0Ow", "UCOxqgCwgOqC2lMqC5PYz_Dg", "UC7tdoGx0eQfRJm9Qj6GCs0A"];			// |
 	var lofiStreamIds = ["hHW1oY26kxQ", "bebuiaSKtU4", "IjMESxJdWkg"];			// |
 	var chillstepStreamIds = ["GVC5adzPpiE", "5FjFqs6b7WI", "6dHrafwh974"];		// |
 	var synthStreamIds = ["7vP5tXXEcqw", "8wURCYMVWzg", "uXSeF2FgAdg"];			// |
 	var fantasyStreamIds = ["_N2I36iPN9w", "ASPPjGevUUo", "b2kNUokNRyw"];		// |
+	var oldWorldStreamIds = ["tb0B3auGbtA", "O_J16Olu_HA", "iZZ-y_z6zLQ"];		// |
 	var animeStreamIds = ["oeMZrIe0Mos", "mUiazw80Lzo", "AvQka2HrceY"];			// |
 	var jazzStreamIds = ["Dx5qFachd3A", "DSGyEsJ17cI", "fEvM-OUbaKs"];			// |
 	
@@ -764,8 +766,9 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 	streamIds["Chillstep"] = chillstepStreamIds;
 	streamIds["Synth"] = synthStreamIds;
 	streamIds["Fantasy"] = fantasyStreamIds;
+	streamIds["Old World"] = oldWorldStreamIds;
 	streamIds["Anime"] = animeStreamIds;
-	streamIds["Jazz"] = jazzStreamIds;
+	//streamIds["Jazz"] = jazzStreamIds;
 	
 	var streamGenres = Object.keys(streamIds);
 	var selectedStreamGenre = streamGenres[0];
