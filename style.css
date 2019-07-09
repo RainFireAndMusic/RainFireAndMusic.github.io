@@ -154,7 +154,7 @@ all: unset;
 #genreTabStrip li a{
 	all: unset;
 	font-size: small;
-	padding: 10px;
+	padding: 7px;
 	color: white;
 	
     background: rgb(255, 255, 255, .03);
