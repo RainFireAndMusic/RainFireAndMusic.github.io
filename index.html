@@ -155,7 +155,7 @@ all: unset;
 #genreTabStrip li a{
 	all: unset;
 	font-size: small;
-	padding: 10px;
+	padding: 7px;
 	color: white;
 	
     background: rgb(255, 255, 255, .03);
@@ -849,9 +849,61 @@ to { box-shadow: 0 0 100px 15px #F4F6AD; }
 		populateStreamList();
 	}
 	
+	function createSearchTab(){
+		var searchTabElement = document.createElement("li");
+		var searchTabLink = document.createElement("a");
+		var searchTabId = "SearchTabContent";
+		$(searchTabLink).attr("href", "#" + searchTabId);
+		$(searchTabLink).text("🔍");
+		$(searchTabElement).append(searchTabLink);
+		
+		var searchTabContent =  document.createElement("div");
+		$(searchTabContent).attr("id", searchTabId);
+		$(searchTabContent).css("margin-top", "0.5em");
+		
+		$("#genreTabStrip").append(searchTabElement);
+		$("#player1MusicSources").append(searchTabContent);
+		
+		var searchTextboxElement = document.createElement("input");
+		$(searchTabContent).append(searchTextboxElement);
+		
+		/*
+		for (let c=0; c < streamIdsInGenre.length; c++){
+			var streamThumbnailElement = document.createElement("img");
+			$(streamThumbnailElement).height('100px');
+			$(streamThumbnailElement).width('133px');
+			$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
+			$(streamThumbnailElement).attr("onclick", "reloadPlayer1('" + streamIdsInGenre[c] + "')");
+			$(searchTabContent).append(streamThumbnailElement);
+			
+			if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
+			else{$(streamThumbnailElement).css("margin-left", "0px");}
+			
+			if (key == selectedStreamGenre && c == selectedStreamIndex) {
+				$(streamThumbnailElement).css("box-shadow", "white 0px 0px 10px 1px");
+				
+				var musicLevelsElement = document.createElement("img");
+				
+				$(musicLevelsElement).height($(streamThumbnailElement).height()/3);
+				$(musicLevelsElement).width($(streamThumbnailElement).width());
+				$(musicLevelsElement).attr("src", "Images/levels.gif");
+				$(musicLevelsElement).attr("class", "selectedStreamOverlay");
+				$(musicLevelsElement).css("position", "absolute");
+				$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 9 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 9 = a magic number. Sorry :T
+				$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")) + 12.5);
+				$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
+				
+				$(searchTabContent).append(musicLevelsElement);
+			}
+		}
+		*/
+	}
+	
 	//Populate the list of streams
 	function populateStreamList() {
 		$("#player1MusicSources *:not('#genreTabStrip')").remove();
+		
+		//createSearchTab();
 		
 		$.each(streamIds, function(key, streamIdsInGenre){
 			var genreTabElement = document.createElement("li");
