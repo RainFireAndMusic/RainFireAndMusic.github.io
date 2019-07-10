@@ -237,8 +237,8 @@
 					$(musicLevelsElement).attr("src", "Images/levels.gif");
 					$(musicLevelsElement).attr("class", "selectedStreamOverlay");
 					$(musicLevelsElement).css("position", "absolute");
-					$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 9 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 9 = a magic number. Sorry :T
-					$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")) + 12.5);
+					$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 19 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 19 = a magic number. Sorry :T
+					$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
 					$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
 					
 					$(genreTabContent).append(musicLevelsElement);
