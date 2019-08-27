@@ -383,7 +383,7 @@
 	var areCheatsLocked = false;
 	var konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a'];
 	var konamiCodePosition = 0;
-	var konamiCodeString = "????????BA";
+	var konamiCodeString = "⇧⇧⇩⇩⇦⇨⇦⇨BA";
 
 	document.addEventListener('keydown', function(e) {
 	  if(window.logKeys){
