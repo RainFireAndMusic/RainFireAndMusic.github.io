@@ -48,23 +48,36 @@
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
 	
-	//var lofiStreamUserIds = ["UCSJ4gkVC6NrvII8umztf0Ow", "UCOxqgCwgOqC2lMqC5PYz_Dg", "UC7tdoGx0eQfRJm9Qj6GCs0A"];			// |
-	var lofiStreamIds = ["hHW1oY26kxQ", "bebuiaSKtU4", "IjMESxJdWkg"];			// |
-	var chillstepStreamIds = ["GVC5adzPpiE", "R2WCvT75KzQ", "6dHrafwh974"];		// |
-	var synthStreamIds = ["6BHBwHLKAVI", "8wURCYMVWzg", "uXSeF2FgAdg"];			// |
-	var fantasyStreamIds = ["SNDTo_nt_jE", "NuIAYHVeFYs", "JpIEAL7enB4"];		// |
-	var oldWorldStreamIds = ["tb0B3auGbtA", "O_J16Olu_HA", "iZZ-y_z6zLQ"];		// |
-	var animeStreamIds = ["oeMZrIe0Mos", "mUiazw80Lzo", "AvQka2HrceY"];			// |
-	var jazzStreamIds = ["Dx5qFachd3A", "DSGyEsJ17cI", "fEvM-OUbaKs"];			// |
+	var lofiStreamUserIds = ["UCSJ4gkVC6NrvII8umztf0Ow", "UCOxqgCwgOqC2lMqC5PYz_Dg", "UC7tdoGx0eQfRJm9Qj6GCs0A"];			// |
+	//var chillstepStreamUserIds = ["UCSJ4gkVC6NrvII8umztf0Ow", "UCOxqgCwgOqC2lMqC5PYz_Dg", "UC7tdoGx0eQfRJm9Qj6GCs0A"];			// | TODO: Replace
+	var synthStreamUserIds = ["UCmYTgpKxd-QOJCPDrmaXuqQ", "UCxLpJR24hdbZcQoTV9c-RdA", "UCvONxytoxgZgYCfwfOdccog"];			// |
+	var fantasyStreamUserIds = ["UCAmE2TXadPvh2Jtk9RWOgfw", "UCPJKuK0qEpbQKT1sPvWfYRw", "UCLTQVYwu-M-MnfOJDKlFnOQ"];			// |
+	//var oldWorldStreamUserIds = ["UCihCtNZnFkG62U4na9JsPJQ", "", ""];			// | TODO: Replace
+	var animeStreamUserIds = ["UCI-Ho-GaKYbtMzXJWmWAsrg", "UC6pGDc4bFGD1_36IKv3FnYg", "UCair3EnAPVYLDL4drNJOrwQ"];			// |	
+	var jazzStreamUserIds = ["UCQINXHZqCU5i06HzxRkujfg", "UCJhjE7wbdYAae1G25m0tHAA", "UCqKLOX-B7H9djovoTzj-Wdg"];			// |
+	//var lofiStreamIds = ["hHW1oY26kxQ", "bebuiaSKtU4", "IjMESxJdWkg"];			// |
+	//var chillstepStreamIds = ["GVC5adzPpiE", "hU26cKnwaFM", "6dHrafwh974"];		// |
+	//var synthStreamIds = ["6BHBwHLKAVI", "8wURCYMVWzg", "uXSeF2FgAdg"];			// |
+	//var fantasyStreamIds = ["SNDTo_nt_jE", "NuIAYHVeFYs", "JpIEAL7enB4"];		// |
+	//var oldWorldStreamIds = ["tb0B3auGbtA", "O_J16Olu_HA", "iZZ-y_z6zLQ"];		// |
+	//var animeStreamIds = ["oeMZrIe0Mos", "mUiazw80Lzo", "AvQka2HrceY"];			// |
+	//var jazzStreamIds = ["Dx5qFachd3A", "DSGyEsJ17cI", "fEvM-OUbaKs"];			// |
 	
 	var streamIds = {};
-	streamIds["Lofi Hip Hop"] = lofiStreamIds;
-	streamIds["Chillstep"] = chillstepStreamIds;
-	streamIds["Synth"] = synthStreamIds;
-	streamIds["Fantasy"] = fantasyStreamIds;
-	streamIds["Old World"] = oldWorldStreamIds;
-	streamIds["Anime"] = animeStreamIds;
+	//streamIds["Lofi Hip Hop"] = lofiStreamIds;
+	//streamIds["Chillstep"] = chillstepStreamIds;
+	//streamIds["Synth"] = synthStreamIds;
+	//streamIds["Fantasy"] = fantasyStreamIds;
+	//streamIds["Old World"] = oldWorldStreamIds;
+	//streamIds["Anime"] = animeStreamIds;
 	//streamIds["Jazz"] = jazzStreamIds;
+	streamIds["Lofi Hip Hop"] = lofiStreamUserIds;
+	//streamIds["Chillstep"] = chillstepStreamUserIds; //TODO: Replace
+	streamIds["Synth"] = synthStreamUserIds;
+	streamIds["Fantasy"] = fantasyStreamUserIds;
+	//streamIds["Old World"] = oldWorldStreamUserIds; //TODO: Replace
+	streamIds["Anime"] = animeStreamUserIds;
+	streamIds["Jazz"] = jazzStreamUserIds;
 	
 	var streamGenres = Object.keys(streamIds);
 	var selectedStreamGenre = streamGenres[0];
@@ -84,7 +97,10 @@
 		host: 'https://www.youtube.com',
 		height: '295',
 		width: '525',
-		videoId: streamIds[selectedStreamGenre][selectedStreamIndex],
+		channelId: streamIds[selectedStreamGenre][selectedStreamIndex],
+		eventType: 'live',
+		type: 'video',
+		//videoId: streamIds[selectedStreamGenre][selectedStreamIndex],
 		events: {
 			'onReady': onPlayerReady
 		}
@@ -220,7 +236,8 @@
 				var streamThumbnailElement = document.createElement("img");
 				$(streamThumbnailElement).height('100px');
 				$(streamThumbnailElement).width('133px');
-				$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
+				$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg"); //TODO: Change image to use userid
+				//$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg"); //Image for streamId
 				$(streamThumbnailElement).attr("onclick", "reloadPlayer1('" + streamIdsInGenre[c] + "')");
 				$(genreTabContent).append(streamThumbnailElement);
 				
