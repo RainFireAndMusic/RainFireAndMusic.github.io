@@ -143,7 +143,7 @@
 		}
 	}
 
-	function reloadmusicPlayer(channelName){
+	function setTwitchChannel(channelName){
 		$.each(channels, function(key, channelsInGenre){
 			if($.inArray(channelName, channelsInGenre) > -1){
 			  //TODO: this won't work with new array structure
@@ -156,6 +156,7 @@
 		selectedChannelIndex = channels[selectedChannelGenre].indexOf(channelName);
 
 		musicPlayer.setChannel(channelName);
+		musicPlayer.play();
 		// todo: change musicPlayer reload
 		populateStreamList();
 	}
@@ -236,7 +237,7 @@
 				$(channelIconElement).height('100px');
 				$(channelIconElement).width('133px');
 				$(channelIconElement).attr("src", channelsInGenre[c][1]);
-				$(channelIconElement).attr("onclick", "reloadmusicPlayer('" + channelsInGenre[c][0] + "')");
+				$(channelIconElement).attr("onclick", "setTwitchChannel('" + channelsInGenre[c][0] + "')");
 				$(genreTabContent).append(channelIconElement);
 
 				if(c>0){$(channelIconElement).css("margin-left", "10px");}
