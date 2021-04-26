@@ -49,7 +49,8 @@
 		channel: "chillhopmusic",
 		height: 295,
 		width: 525,
-		theme: "dark"
+		theme: "dark",
+		layout: "video"
 	});
 	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
