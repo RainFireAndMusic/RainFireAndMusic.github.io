@@ -61,27 +61,34 @@
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
 
-	//var lofiStreamUserIds = ["UCSJ4gkVC6NrvII8umztf0Ow", "UCOxqgCwgOqC2lMqC5PYz_Dg", "UC7tdoGx0eQfRJm9Qj6GCs0A"];			// |
-	var lofiStreamIds = ["hHW1oY26kxQ", "bebuiaSKtU4", "IjMESxJdWkg"];			// |
-	var chillstepStreamIds = ["GVC5adzPpiE", "R2WCvT75KzQ", "6dHrafwh974"];		// |
-	var synthStreamIds = ["6BHBwHLKAVI", "8wURCYMVWzg", "uXSeF2FgAdg"];			// |
-	var fantasyStreamIds = ["SNDTo_nt_jE", "NuIAYHVeFYs", "JpIEAL7enB4"];		// |
-	var oldWorldStreamIds = ["tb0B3auGbtA", "O_J16Olu_HA", "iZZ-y_z6zLQ"];		// |
-	var animeStreamIds = ["oeMZrIe0Mos", "mUiazw80Lzo", "AvQka2HrceY"];			// |
-	var jazzStreamIds = ["Dx5qFachd3A", "DSGyEsJ17cI", "fEvM-OUbaKs"];			// |
+	// channelName, channelIconUrl
+ 	var chillHopChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
+													["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"]];
 
-	var streamIds = {};
-	streamIds["Lofi Hip Hop"] = lofiStreamIds;
-	streamIds["Chillstep"] = chillstepStreamIds;
-	streamIds["Synth"] = synthStreamIds;
-	streamIds["Fantasy"] = fantasyStreamIds;
-	streamIds["Old World"] = oldWorldStreamIds;
-	streamIds["Anime"] = animeStreamIds;
-	//streamIds["Jazz"] = jazzStreamIds;
+	var chillstepChannels = ["GVC5adzPpiE", "R2WCvT75KzQ", "6dHrafwh974"];		// |
 
-	var streamGenres = Object.keys(streamIds);
-	var selectedStreamGenre = streamGenres[0];
-	var selectedStreamIndex = 0;
+	var synthChannels = ["6BHBwHLKAVI", "8wURCYMVWzg", "uXSeF2FgAdg"];			// |
+
+	var fantasyChannels = ["SNDTo_nt_jE", "NuIAYHVeFYs", "JpIEAL7enB4"];		// |
+
+	var oldWorldChannels = ["tb0B3auGbtA", "O_J16Olu_HA", "iZZ-y_z6zLQ"];		// |
+
+	var animeChannels = ["oeMZrIe0Mos", "mUiazw80Lzo", "AvQka2HrceY"];			// |
+
+	var jazzChannels = ["Dx5qFachd3A", "DSGyEsJ17cI", "fEvM-OUbaKs"];			// |
+
+	var channels = {};
+	channels["ChillHop"]  = chillHopChannels;
+	channels["Chillstep"] = chillstepChannels;
+	channels["Synth"]     = synthChannels;
+	channels["Fantasy"]   = fantasyChannels;
+	channels["Old World"] = oldWorldChannels;
+	channels["Anime"]     = animeChannels;
+	//channels["Jazz"] = jazzChannels;
+
+	var streamGenres = Object.keys(channels);
+	var selectedChannelGenre = streamGenres[0];
+	var selectedChannelIndex = 0;
 
 	tag.src = "https://www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -126,27 +133,30 @@
 		setMoonPhase();
 		//todo: Change musicPlayer pause
 		if(/*musicPlayer.getPlayerState() == 1 ||*/ player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
-			//musicPlayer.pauseVideo();
+			musicPlayer.pause();
 			player2.pauseVideo();
 			player3.pauseVideo();
 		}else{
-		//	musicPlayer.playVideo();
+			musicPlayer.play();
 			player2.playVideo();
 			player3.playVideo();
 		}
 	}
 
-	function reloadmusicPlayer(streamId){
-		$.each(streamIds, function(key, streamIdsInGenre){
-			if($.inArray(streamId, streamIdsInGenre) > -1){
-				selectedStreamGenre = key;
+	function reloadmusicPlayer(channelName){
+		$.each(channels, function(key, channelsInGenre){
+			if($.inArray(channelName, channelsInGenre) > -1){
+			  //TODO: this won't work with new array structure
+				selectedChannelGenre = key;
 				return false;
 			}
 		});
 
-		selectedStreamIndex = streamIds[selectedStreamGenre].indexOf(streamId);
+			//TODO: this won't work with new array structure
+		selectedChannelIndex = channels[selectedChannelGenre].indexOf(channelName);
+
+		musicPlayer.setChannel(channelName);
 		// todo: change musicPlayer reload
-		//musicPlayer.loadVideoById(streamId);
 		populateStreamList();
 	}
 
@@ -169,29 +179,29 @@
 		$(searchTabContent).append(searchTextboxElement);
 
 		/*
-		for (let c=0; c < streamIdsInGenre.length; c++){
-			var streamThumbnailElement = document.createElement("img");
-			$(streamThumbnailElement).height('100px');
-			$(streamThumbnailElement).width('133px');
-			$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
-			$(streamThumbnailElement).attr("onclick", "reloadmusicPlayer('" + streamIdsInGenre[c] + "')");
-			$(searchTabContent).append(streamThumbnailElement);
+		for (let c=0; c < channelsInGenre.length; c++){
+			var channelIconElement = document.createElement("img");
+			$(channelIconElement).height('100px');
+			$(channelIconElement).width('133px');
+			$(channelIconElement).attr("src", "https://img.youtube.com/vi/" + channelsInGenre[c] + "/0.jpg");
+			$(channelIconElement).attr("onclick", "reloadmusicPlayer('" + channelsInGenre[c] + "')");
+			$(searchTabContent).append(channelIconElement);
 
-			if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
-			else{$(streamThumbnailElement).css("margin-left", "0px");}
+			if(c>0){$(channelIconElement).css("margin-left", "10px");}
+			else{$(channelIconElement).css("margin-left", "0px");}
 
-			if (key == selectedStreamGenre && c == selectedStreamIndex) {
-				$(streamThumbnailElement).css("box-shadow", "white 0px 0px 10px 1px");
+			if (key == selectedChannelGenre && c == selectedChannelIndex) {
+				$(channelIconElement).css("box-shadow", "white 0px 0px 10px 1px");
 
 				var musicLevelsElement = document.createElement("img");
 
-				$(musicLevelsElement).height($(streamThumbnailElement).height()/3);
-				$(musicLevelsElement).width($(streamThumbnailElement).width());
+				$(musicLevelsElement).height($(channelIconElement).height()/3);
+				$(musicLevelsElement).width($(channelIconElement).width());
 				$(musicLevelsElement).attr("src", "Images/levels.gif");
-				$(musicLevelsElement).attr("class", "selectedStreamOverlay");
+				$(musicLevelsElement).attr("class", "selectedChannelOverlay");
 				$(musicLevelsElement).css("position", "absolute");
 				$(musicLevelsElement).css("bottom", parseFloat($("#musicSources").css("padding-bottom")) - 9 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 9 = a magic number. Sorry :T
-				$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 12.5);
+				$(musicLevelsElement).css("left", ($(channelIconElement).width()*c) + (parseFloat($(channelIconElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 12.5);
 				$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
 
 				$(searchTabContent).append(musicLevelsElement);
@@ -206,7 +216,7 @@
 
 		//createSearchTab();
 
-		$.each(streamIds, function(key, streamIdsInGenre){
+		$.each(channels, function(key, channelsInGenre){
 			var genreTabElement = document.createElement("li");
 			var genreTabLink = document.createElement("a");
 			var keyAsId = key.replace(new RegExp(" ", "g"), "_") + "TabContent";
@@ -221,29 +231,29 @@
 			$("#genreTabStrip").append(genreTabElement);
 			$("#musicSources").append(genreTabContent);
 
-			for (let c=0; c < streamIdsInGenre.length; c++){
-				var streamThumbnailElement = document.createElement("img");
-				$(streamThumbnailElement).height('100px');
-				$(streamThumbnailElement).width('133px');
-				$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
-				$(streamThumbnailElement).attr("onclick", "reloadmusicPlayer('" + streamIdsInGenre[c] + "')");
-				$(genreTabContent).append(streamThumbnailElement);
+			for (let c=0; c < channelsInGenre.length; c++){
+				var channelIconElement = document.createElement("img");
+				$(channelIconElement).height('100px');
+				$(channelIconElement).width('133px');
+				$(channelIconElement).attr("src", channelsInGenre[c][1]);
+				$(channelIconElement).attr("onclick", "reloadmusicPlayer('" + channelsInGenre[c][0] + "')");
+				$(genreTabContent).append(channelIconElement);
 
-				if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
-				else{$(streamThumbnailElement).css("margin-left", "0px");}
+				if(c>0){$(channelIconElement).css("margin-left", "10px");}
+				else{$(channelIconElement).css("margin-left", "0px");}
 
-				if (key == selectedStreamGenre && c == selectedStreamIndex) {
-					$(streamThumbnailElement).css("box-shadow", "white 0px 0px 10px 1px");
+				if (key == selectedChannelGenre && c == selectedChannelIndex) {
+					$(channelIconElement).css("box-shadow", "white 0px 0px 10px 1px");
 
 					var musicLevelsElement = document.createElement("img");
 
-					$(musicLevelsElement).height($(streamThumbnailElement).height()/3);
-					$(musicLevelsElement).width($(streamThumbnailElement).width());
+					$(musicLevelsElement).height($(channelIconElement).height()/3);
+					$(musicLevelsElement).width($(channelIconElement).width());
 					$(musicLevelsElement).attr("src", "Images/levels.gif");
-					$(musicLevelsElement).attr("class", "selectedStreamOverlay");
+					$(musicLevelsElement).attr("class", "selectedChannelOverlay");
 					$(musicLevelsElement).css("position", "absolute");
 					$(musicLevelsElement).css("bottom", parseFloat($("#musicSources").css("padding-bottom")) - 19 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 19 = a magic number. Sorry :T
-					$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
+					$(musicLevelsElement).css("left", ($(channelIconElement).width()*c) + (parseFloat($(channelIconElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
 					$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
 
 					$(genreTabContent).append(musicLevelsElement);
@@ -254,7 +264,7 @@
 		$("#musicSources").tabs().tabs('destroy').tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
         $("#musicSources li").removeClass('ui-corner-top').addClass('ui-corner-left');
 
-		var indexOfSelectedStream = streamGenres.indexOf(selectedStreamGenre)
+		var indexOfSelectedStream = streamGenres.indexOf(selectedChannelGenre)
 		$("#genreTabStrip li a")[indexOfSelectedStream].click()
 	}
 
