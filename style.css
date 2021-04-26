@@ -175,6 +175,9 @@ all: unset;
 	font-size: medium;
     background: rgb(255, 255, 255, .06);
 }
+.ads{
+	width: 1px;
+}
 
 div[id$="musicSources"] {
 	border: unset !important;
