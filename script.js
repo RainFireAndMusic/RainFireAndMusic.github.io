@@ -271,9 +271,9 @@
 
 		//adblock notification
     if($("#adblockBait").width() > 0) {
-        alert('No AdBlocker');
+        //alert('No AdBlocker');
     } else {
-        alert('AdBlocker Detected');
+        //alert('AdBlocker Detected');
     }
 	});
 	//Shooting stars		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
