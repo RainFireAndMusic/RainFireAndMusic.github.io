@@ -1,9 +1,9 @@
 	//General funcs		vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	function openOrCloseFullscreenWindow() {
 		var elem = document.documentElement;
-		
-		if (window.isFullscreened){ 
-			if (document.exitFullscreen) { 
+
+		if (window.isFullscreened){
+			if (document.exitFullscreen) {
 				document.exitFullscreen();
 			} else if (document.mozCancelFullScreen) { /* Firefox */
 				document.mozCancelFullScreen();
@@ -31,23 +31,31 @@
 	function randomNeonColor() {
 		var sick_neon_colors = ["#CB3301", "#FF0066", "#FF6666", "#FEFF99", "#FFFF67", "#CCFF66", "#99FE00", "#EC8EED", "#FF99CB", "#FE349A", "#CC99FE", "#6599FF", "#03CDFF", "#FFFFFF"];
 		return sick_neon_colors[Math.floor(Math.random()*sick_neon_colors.length)];
-	};	
-	
+	};
+
 	function showMusicSources(videoContainer){
 		var musicSources = $(videoContainer).find('div[id$="MusicSources"]');
 		musicSources.stop(true, true);
 		musicSources.show();
 	}
-	
+
 	function hideMusicSources(videoContainer){
 		$(videoContainer).find('div[id$="MusicSources"]').hide("fade", {}, 1000);
 	}
 	//General funcs		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
+
+	//Twitch streams  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+	new Twitch.Embed("twitch-embed", {
+		width: 854,
+		height: 480,
+		channel: "chillhopmusic"
+	});
+	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 	//Youtube videos	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
-	
+
 	//var lofiStreamUserIds = ["UCSJ4gkVC6NrvII8umztf0Ow", "UCOxqgCwgOqC2lMqC5PYz_Dg", "UC7tdoGx0eQfRJm9Qj6GCs0A"];			// |
 	var lofiStreamIds = ["hHW1oY26kxQ", "bebuiaSKtU4", "IjMESxJdWkg"];			// |
 	var chillstepStreamIds = ["GVC5adzPpiE", "R2WCvT75KzQ", "6dHrafwh974"];		// |
@@ -56,7 +64,7 @@
 	var oldWorldStreamIds = ["tb0B3auGbtA", "O_J16Olu_HA", "iZZ-y_z6zLQ"];		// |
 	var animeStreamIds = ["oeMZrIe0Mos", "mUiazw80Lzo", "AvQka2HrceY"];			// |
 	var jazzStreamIds = ["Dx5qFachd3A", "DSGyEsJ17cI", "fEvM-OUbaKs"];			// |
-	
+
 	var streamIds = {};
 	streamIds["Lofi Hip Hop"] = lofiStreamIds;
 	streamIds["Chillstep"] = chillstepStreamIds;
@@ -65,11 +73,11 @@
 	streamIds["Old World"] = oldWorldStreamIds;
 	streamIds["Anime"] = animeStreamIds;
 	//streamIds["Jazz"] = jazzStreamIds;
-	
+
 	var streamGenres = Object.keys(streamIds);
 	var selectedStreamGenre = streamGenres[0];
 	var selectedStreamIndex = 0;
-	
+
 	tag.src = "https://www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -79,7 +87,9 @@
 	var player1;
 	var player2;
 	var player3;
+	var player;
 	function onYouTubeIframeAPIReady() {
+	player = new YT.Player('player', {host: 'https://www.youtube.com'});
 	player1 = new YT.Player('player1', {
 		host: 'https://www.youtube.com',
 		height: '295',
@@ -108,7 +118,7 @@
 		}
 	});
 	}
-				
+
 	// 4. The API will call this function when the video player is ready.
 	function onPlayerReady(event) {
 		event.target.setVolume(50);
@@ -131,7 +141,7 @@
 			player3.playVideo();
 		}
 	}
-	
+
 	function reloadPlayer1(streamId){
 		$.each(streamIds, function(key, streamIdsInGenre){
 			if($.inArray(streamId, streamIdsInGenre) > -1){
@@ -139,12 +149,12 @@
 				return false;
 			}
 		});
-		
+
 		selectedStreamIndex = streamIds[selectedStreamGenre].indexOf(streamId);
 		player1.loadVideoById(streamId);
 		populateStreamList();
 	}
-	
+
 	function createSearchTab(){
 		var searchTabElement = document.createElement("li");
 		var searchTabLink = document.createElement("a");
@@ -152,17 +162,17 @@
 		$(searchTabLink).attr("href", "#" + searchTabId);
 		$(searchTabLink).text("🔍");
 		$(searchTabElement).append(searchTabLink);
-		
+
 		var searchTabContent =  document.createElement("div");
 		$(searchTabContent).attr("id", searchTabId);
 		$(searchTabContent).css("margin-top", "0.5em");
-		
+
 		$("#genreTabStrip").append(searchTabElement);
 		$("#player1MusicSources").append(searchTabContent);
-		
+
 		var searchTextboxElement = document.createElement("input");
 		$(searchTabContent).append(searchTextboxElement);
-		
+
 		/*
 		for (let c=0; c < streamIdsInGenre.length; c++){
 			var streamThumbnailElement = document.createElement("img");
@@ -171,15 +181,15 @@
 			$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
 			$(streamThumbnailElement).attr("onclick", "reloadPlayer1('" + streamIdsInGenre[c] + "')");
 			$(searchTabContent).append(streamThumbnailElement);
-			
+
 			if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
 			else{$(streamThumbnailElement).css("margin-left", "0px");}
-			
+
 			if (key == selectedStreamGenre && c == selectedStreamIndex) {
 				$(streamThumbnailElement).css("box-shadow", "white 0px 0px 10px 1px");
-				
+
 				var musicLevelsElement = document.createElement("img");
-				
+
 				$(musicLevelsElement).height($(streamThumbnailElement).height()/3);
 				$(musicLevelsElement).width($(streamThumbnailElement).width());
 				$(musicLevelsElement).attr("src", "Images/levels.gif");
@@ -188,19 +198,19 @@
 				$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 9 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 9 = a magic number. Sorry :T
 				$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")) + 12.5);
 				$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
-				
+
 				$(searchTabContent).append(musicLevelsElement);
 			}
 		}
 		*/
 	}
-	
+
 	//Populate the list of streams
 	function populateStreamList() {
 		$("#player1MusicSources *:not('#genreTabStrip')").remove();
-		
+
 		//createSearchTab();
-		
+
 		$.each(streamIds, function(key, streamIdsInGenre){
 			var genreTabElement = document.createElement("li");
 			var genreTabLink = document.createElement("a");
@@ -208,14 +218,14 @@
 			$(genreTabLink).attr("href", "#" + keyAsId);
 			$(genreTabLink).text(key);
 			$(genreTabElement).append(genreTabLink);
-			
+
 			var genreTabContent =  document.createElement("div");
 			$(genreTabContent).attr("id", keyAsId);
 			$(genreTabContent).css("margin-top", "0.5em");
-			
+
 			$("#genreTabStrip").append(genreTabElement);
 			$("#player1MusicSources").append(genreTabContent);
-			
+
 			for (let c=0; c < streamIdsInGenre.length; c++){
 				var streamThumbnailElement = document.createElement("img");
 				$(streamThumbnailElement).height('100px');
@@ -223,15 +233,15 @@
 				$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
 				$(streamThumbnailElement).attr("onclick", "reloadPlayer1('" + streamIdsInGenre[c] + "')");
 				$(genreTabContent).append(streamThumbnailElement);
-				
+
 				if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
 				else{$(streamThumbnailElement).css("margin-left", "0px");}
-				
+
 				if (key == selectedStreamGenre && c == selectedStreamIndex) {
 					$(streamThumbnailElement).css("box-shadow", "white 0px 0px 10px 1px");
-					
+
 					var musicLevelsElement = document.createElement("img");
-					
+
 					$(musicLevelsElement).height($(streamThumbnailElement).height()/3);
 					$(musicLevelsElement).width($(streamThumbnailElement).width());
 					$(musicLevelsElement).attr("src", "Images/levels.gif");
@@ -240,21 +250,21 @@
 					$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 19 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 19 = a magic number. Sorry :T
 					$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
 					$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
-					
+
 					$(genreTabContent).append(musicLevelsElement);
 				}
 			}
-		});				
-		
+		});
+
 		$("#player1MusicSources").tabs().tabs('destroy').tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
         $("#player1MusicSources li").removeClass('ui-corner-top').addClass('ui-corner-left');
-		
+
 		var indexOfSelectedStream = streamGenres.indexOf(selectedStreamGenre)
 		$("#genreTabStrip li a")[indexOfSelectedStream].click()
 	}
-	
+
 	//Youtube videos	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	  
+
 	//Shooting stars	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	function LoopAnimate() {
 	// Add animation class to star after 5 secons
@@ -291,7 +301,7 @@
 			starCont.style.marginLeft = leftnum;
 		}
 	}
-	
+
 	$(document).ready(function(){
 		// Call LoopAnimate every 10 seconds
 		LoopAnimate();
@@ -303,58 +313,58 @@
 		$('[id$="MusicSources"]').hide();
 	});
 	//Shooting stars		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	
+
 	//Moon Phase	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	function setMoonPhase(){
 		var moonPhaseElement = $("#moonphase");
 		moonPhaseElement.css("border", "none");
-		
+
 		var moonPercentThroughCycle = getMoonPercentThroughCycle();
 		var moonPercentFilled = (moonPercentThroughCycle * 2) <= 1 ? moonPercentThroughCycle * 2 : 1 - ((moonPercentThroughCycle * 2) - 1);
 		var moonPixelFilled = moonPercentFilled * moonPhaseElement.width();
-		
+
 		$("#mooncolor").css("background-color", randomNeonColor());
-		
+
 		if(moonPercentThroughCycle <= .25){
 			moonPhaseElement.css("border-right", moonPixelFilled + "px solid transparent");
 		} else if(moonPercentThroughCycle <= .5){
 			moonPhaseElement.css("border-left", moonPhaseElement.width() - moonPixelFilled + "px solid transparent");
-			
+
 			var backgroundColor = moonPhaseElement.css("background-color");
 			var borderColor = moonPhaseElement.css("border-color");
-			
+
 			moonPhaseElement.css("background-color", "transparent");
 			moonPhaseElement.css("border-color", "black");
-		
+
 		} else if(moonPercentThroughCycle <= .75){
 			moonPhaseElement.css("border-right", moonPhaseElement.width() - moonPixelFilled + "px solid transparent");
-			
+
 			var backgroundColor = moonPhaseElement.css("background-color");
 			var borderColor = moonPhaseElement.css("border-color");
-			
+
 			moonPhaseElement.css("background-color", "transparent");
 			moonPhaseElement.css("border-color", "black");
 		}
 		else{
 			moonPhaseElement.css("border-left", moonPixelFilled + "px solid transparent");
 		}
-		
+
 	}
-	
+
 	function getMoonPercentThroughCycle()
-	{	
+	{
 		var today = new Date();
 		var day = today.getDate();
 		var month = today.getMonth() + 1; //January is 0
 		var year = today.getFullYear();
-		
+
 		if (month < 3) {
 			year--;
 			month += 12;
 		}
-		
+
 		++month;
-		
+
 		var c = 365.25 * year;
 		var e = 30.6 * month;
 		var totalDaysElapsed = c + e + day - 694039.09; //totalDaysElapsed is total days elapsed
@@ -369,7 +379,7 @@
 		return totalDaysElapsed;
 	}
 	//Moon Phase	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	
+
 	//kybinds				 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	var allowedKeys = {
 	  37: 'left',
@@ -389,7 +399,7 @@
 	  if(window.logKeys){
 		console.log(e.keyCode);
 	  }
-	  
+
 	  if(!areCheatsLocked){
 		  var key = allowedKeys[e.keyCode];
 		  var requiredKey = konamiCode[konamiCodePosition];
@@ -434,7 +444,7 @@
 		console.log("cheats activated");
 	}
 	//keybinds 				^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	
+
 	// exit fullscreen      vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	if (document.addEventListener)
 	{
