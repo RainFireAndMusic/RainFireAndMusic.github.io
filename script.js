@@ -112,8 +112,8 @@
 	// 4. The API will call this function when the video player is ready.
 	function onPlayerReady(event) {
 		event.target.setVolume(50);
-		if(event.target.a.id == "player1"){event.target.setVolume(50);}
-		else if(event.target.a.id == "player2"){event.target.setVolume(80);}
+		//if(event.target.a.id == "player1"){event.target.setVolume(50);} todo: can we do this with Twitch?
+		if(event.target.a.id == "player2"){event.target.setVolume(80);}
 		else{event.target.setVolume(30);}
 		event.target.seekTo(0);
 		event.target.playVideo();
@@ -122,7 +122,7 @@
 	function playorpauseVideos() {
 		setMoonPhase();
 		//todo: Change Player1 pause
-		if(player1.getPlayerState() == 1 || player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
+		if(/*player1.getPlayerState() == 1 ||*/ player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
 			//player1.pauseVideo();
 			player2.pauseVideo();
 			player3.pauseVideo();
