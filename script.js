@@ -268,6 +268,13 @@
 		populateStreamList();
 		setMoonPhase();
 		$('[id$="musicSources"]').hide();
+
+		//adblock notification
+    if($("#adblockBait").width() > 0) {
+        alert('No AdBlocker');
+    } else {
+        alert('AdBlocker Detected');
+    }
 	});
 	//Shooting stars		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
