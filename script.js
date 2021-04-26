@@ -63,7 +63,8 @@
 
 	// channelName, channelIconUrl
  	var chillHopChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
-													["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"]];
+													["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"],
+													["chilledcattv" , "https://static-cdn.jtvnw.net/jtv_user_pictures/dd95b22b-4cbe-4083-ae5c-a6e17ac7a398-profile_image-70x70.png"]];
 
 	var chillstepChannels = ["GVC5adzPpiE", "R2WCvT75KzQ", "6dHrafwh974"];		// |
 
@@ -231,6 +232,8 @@
 			$(genreTabContent).css("align-items", "center");
 			$(genreTabContent).css("display", "flex");
 			$(genreTabContent).css("justify-content", "space-evenly");
+			$(genreTabContent).css("padding", 0);
+			$(genreTabContent).css("padding-top", "1em");
 
 			$("#genreTabStrip").append(genreTabElement);
 			$("#musicSources").append(genreTabContent);
