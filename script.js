@@ -45,10 +45,11 @@
 	//General funcs		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	//Twitch streams  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-	new Twitch.Embed("twitch-embed", {
-		width: 854,
-		height: 480,
-		channel: "chillhopmusic"
+	player1 = new Twitch.Embed("player1", {
+		channel: "chillhopmusic",
+		height: 295,
+		width: 525,
+		theme: "dark"
 	});
 	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -87,36 +88,25 @@
 	var player1;
 	var player2;
 	var player3;
-	var player;
 	function onYouTubeIframeAPIReady() {
-	player = new YT.Player('player', {host: 'https://www.youtube.com'});
-	player1 = new YT.Player('player1', {
-		host: 'https://www.youtube.com',
-		height: '295',
-		width: '525',
-		videoId: streamIds[selectedStreamGenre][selectedStreamIndex],
-		events: {
+		player2 = new YT.Player('player2', {
+			host: 'https://www.youtube.com',
+			height: '239',
+			width: '425',
+			videoId: 'ZY3J3Y_OU0w',
+			events: {
 			'onReady': onPlayerReady
-		}
-	});
-	player2 = new YT.Player('player2', {
-		host: 'https://www.youtube.com',
-		height: '239',
-		width: '425',
-		videoId: 'ZY3J3Y_OU0w',
-		events: {
-		'onReady': onPlayerReady
-		}
-	});
-	player3 = new YT.Player('player3', {
-		host: 'https://www.youtube.com',
-		height: '239',
-		width: '425',
-		videoId: 'aDfZ6STAfqA',
-		events: {
-		'onReady': onPlayerReady
-		}
-	});
+			}
+		});
+		player3 = new YT.Player('player3', {
+			host: 'https://www.youtube.com',
+			height: '239',
+			width: '425',
+			videoId: 'aDfZ6STAfqA',
+			events: {
+			'onReady': onPlayerReady
+			}
+		});
 	}
 
 	// 4. The API will call this function when the video player is ready.
@@ -131,12 +121,13 @@
 
 	function playorpauseVideos() {
 		setMoonPhase();
+		//todo: Change Player1 pause
 		if(player1.getPlayerState() == 1 || player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
-			player1.pauseVideo();
+			//player1.pauseVideo();
 			player2.pauseVideo();
 			player3.pauseVideo();
 		}else{
-			player1.playVideo();
+		//	player1.playVideo();
 			player2.playVideo();
 			player3.playVideo();
 		}
@@ -151,7 +142,8 @@
 		});
 
 		selectedStreamIndex = streamIds[selectedStreamGenre].indexOf(streamId);
-		player1.loadVideoById(streamId);
+		// todo: change player1 reload
+		//player1.loadVideoById(streamId);
 		populateStreamList();
 	}
 
