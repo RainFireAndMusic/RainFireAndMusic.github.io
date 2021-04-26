@@ -369,19 +369,19 @@
 			  activateCheats();
 			  konamiCodePosition = 0;
 			  $("#cheatCodeTextbox").css("color", "green");
-			  $("#cheatCodeTextbox").fadeOut(1000);
+			  $("#cheatCodeTextbox").fadeOut(3000);
 			}
 		  } else {
 			areCheatsLocked = true;
 			konamiCodePosition = 0;
 			$("#cheatCodeTextbox").css("color", "red");
-			$("#cheatCodeTextbox").fadeOut(1000);
+			$("#cheatCodeTextbox").fadeOut(3000);
 			setTimeout(function(){
 			$("#cheatCodeTextbox").css("color", "white");
 				$("#cheatCodeTextbox").text("");
 				areCheatsLocked = false;
 				$("#cheatCodeTextbox").fadeIn();
-			},1000);
+			},3000);
 		  }
 	  }
 	  switch (e.keyCode){
