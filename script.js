@@ -1,5 +1,5 @@
 	//General funcs		vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-	function openOrCloseFullscreenWindow() {
+	function toggleFullscreen() {
 		var elem = document.documentElement;
 
 		if (window.isFullscreened){
@@ -448,7 +448,7 @@
 	  switch (e.keyCode){
 				case 70: //f
 					console.log("Paying respects o7");
-					openOrCloseFullscreenWindow();
+					toggleFullscreen();
 					break;
 			}
 	});
