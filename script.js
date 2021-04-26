@@ -55,41 +55,24 @@
 
 	var musicPlayer;
 	musicPlayer = embed.getPlayer();
+
+		// channelName, channelIconUrl
+	 	var chillHopChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
+														["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"],
+														["chilledcattv" , "https://static-cdn.jtvnw.net/jtv_user_pictures/dd95b22b-4cbe-4083-ae5c-a6e17ac7a398-profile_image-70x70.png"]];
+
+		var channels = {};
+		channels["ChillHop"]  = chillHopChannels;
+
+		var streamGenres = Object.keys(channels);
+		var selectedChannelGenre = streamGenres[0];
+		var selectedChannelIndex = 0;
+
 	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	//Youtube videos	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// 2. This code loads the IFrame Player API code asynchronously.
 	var tag = document.createElement('script');
-
-	// channelName, channelIconUrl
- 	var chillHopChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
-													["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"],
-													["chilledcattv" , "https://static-cdn.jtvnw.net/jtv_user_pictures/dd95b22b-4cbe-4083-ae5c-a6e17ac7a398-profile_image-70x70.png"]];
-
-	var chillstepChannels = ["GVC5adzPpiE", "R2WCvT75KzQ", "6dHrafwh974"];		// |
-
-	var synthChannels = ["6BHBwHLKAVI", "8wURCYMVWzg", "uXSeF2FgAdg"];			// |
-
-	var fantasyChannels = ["SNDTo_nt_jE", "NuIAYHVeFYs", "JpIEAL7enB4"];		// |
-
-	var oldWorldChannels = ["tb0B3auGbtA", "O_J16Olu_HA", "iZZ-y_z6zLQ"];		// |
-
-	var animeChannels = ["oeMZrIe0Mos", "mUiazw80Lzo", "AvQka2HrceY"];			// |
-
-	var jazzChannels = ["Dx5qFachd3A", "DSGyEsJ17cI", "fEvM-OUbaKs"];			// |
-
-	var channels = {};
-	channels["ChillHop"]  = chillHopChannels;
-	channels["Chillstep"] = chillstepChannels;
-	channels["Synth"]     = synthChannels;
-	channels["Fantasy"]   = fantasyChannels;
-	channels["Old World"] = oldWorldChannels;
-	channels["Anime"]     = animeChannels;
-	//channels["Jazz"] = jazzChannels;
-
-	var streamGenres = Object.keys(channels);
-	var selectedChannelGenre = streamGenres[0];
-	var selectedChannelIndex = 0;
 
 	tag.src = "https://www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -161,56 +144,6 @@
 		populateStreamList();
 	}
 
-	function createSearchTab(){
-		var searchTabElement = document.createElement("li");
-		var searchTabLink = document.createElement("a");
-		var searchTabId = "SearchTabContent";
-		$(searchTabLink).attr("href", "#" + searchTabId);
-		$(searchTabLink).text("🔍");
-		$(searchTabElement).append(searchTabLink);
-
-		var searchTabContent =  document.createElement("div");
-		$(searchTabContent).attr("id", searchTabId);
-		$(searchTabContent).css("margin-top", "0.5em");
-
-		$("#genreTabStrip").append(searchTabElement);
-		$("#musicSources").append(searchTabContent);
-
-		var searchTextboxElement = document.createElement("input");
-		$(searchTabContent).append(searchTextboxElement);
-
-		/*
-		for (let c=0; c < channelsInGenre.length; c++){
-			var channelIconElement = document.createElement("img");
-			$(channelIconElement).height('100px');
-			$(channelIconElement).width('133px');
-			$(channelIconElement).attr("src", "https://img.youtube.com/vi/" + channelsInGenre[c] + "/0.jpg");
-			$(channelIconElement).attr("onclick", "reloadmusicPlayer('" + channelsInGenre[c] + "')");
-			$(searchTabContent).append(channelIconElement);
-
-			if(c>0){$(channelIconElement).css("margin-left", "10px");}
-			else{$(channelIconElement).css("margin-left", "0px");}
-
-			if (key == selectedChannelGenre && c == selectedChannelIndex) {
-				$(channelIconElement).css("box-shadow", "white 0px 0px 10px 1px");
-
-				var musicLevelsElement = document.createElement("img");
-
-				$(musicLevelsElement).height($(channelIconElement).height()/3);
-				$(musicLevelsElement).width($(channelIconElement).width());
-				$(musicLevelsElement).attr("src", "Images/levels.gif");
-				$(musicLevelsElement).attr("class", "selectedChannelOverlay");
-				$(musicLevelsElement).css("position", "absolute");
-				$(musicLevelsElement).css("bottom", parseFloat($("#musicSources").css("padding-bottom")) - 9 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 9 = a magic number. Sorry :T
-				$(musicLevelsElement).css("left", ($(channelIconElement).width()*c) + (parseFloat($(channelIconElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 12.5);
-				$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
-
-				$(searchTabContent).append(musicLevelsElement);
-			}
-		}
-		*/
-	}
-
 	//Populate the list of streams
 	function populateStreamList() {
 		$("#musicSources *:not('#genreTabStrip')").remove();
@@ -233,9 +166,8 @@
 			$(genreTabContent).css("display", "flex");
 			$(genreTabContent).css("justify-content", "space-evenly");
 			$(genreTabContent).css("padding", 0);
-			$(genreTabContent).css("padding-top", "1em");
 
-			$("#genreTabStrip").append(genreTabElement);
+			//$("#genreTabStrip").append(genreTabElement);
 			$("#musicSources").append(genreTabContent);
 
 			for (let c=0; c < channelsInGenre.length; c++){
@@ -278,7 +210,7 @@
         $("#musicSources li").removeClass('ui-corner-top').addClass('ui-corner-left');
 
 		var indexOfSelectedStream = streamGenres.indexOf(selectedChannelGenre)
-		$("#genreTabStrip li a")[indexOfSelectedStream].click()
+		//$("#genreTabStrip li a")[indexOfSelectedStream].click()
 	}
 
 	//Youtube videos	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

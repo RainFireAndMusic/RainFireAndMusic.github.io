@@ -180,12 +180,10 @@ div[id$="musicSources"] {
 	border: unset !important;
 	border-radius: 0px 0px 10px 10px !important;
 	background: rgb(255, 255, 255, .05);
-	bottom: -182px; /* 0 - height - padding-top - padding-bottom */
-	height: 127px;
+	bottom: -147px; /* 0 - height(109) - padding-top - padding-bottom */
 	width: calc(100% - 70px); /* subtracted value is ((margin-right*2) + padding-right + padding-left) */
 	margin-right: 15px;
 	padding: 20px;
-	padding-bottom: 35px; /* padding-top + scrollbar height */
 	position: absolute;
 	right: 0;
 	/*overflow-x: scroll;*/
