@@ -54,27 +54,29 @@
 		muted: false
 	});
 
-	embed.addEventListener(Twitch.Embed.VIDEO_READY, function() {
-	  console.log('The video is ready');
-	});
-	embed.addEventListener(Twitch.Embed.VIDEO_PLAY, function() {
-	  console.log('The video is playing');
-	});
-
 	var musicPlayer;
 	musicPlayer = embed.getPlayer();
 
-		// channelName, channelIconUrl
-	 	var chillHopChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
-														["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"],
-														["chilledcattv" , "https://static-cdn.jtvnw.net/jtv_user_pictures/dd95b22b-4cbe-4083-ae5c-a6e17ac7a398-profile_image-70x70.png"]];
+	// channelName, channelIconUrl
+ 	var chillHopChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
+													["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"],
+													["chilledcattv" , "https://static-cdn.jtvnw.net/jtv_user_pictures/dd95b22b-4cbe-4083-ae5c-a6e17ac7a398-profile_image-70x70.png"]];
 
-		var channels = {};
-		channels["ChillHop"]  = chillHopChannels;
+	var channels = {};
+	channels["ChillHop"]  = chillHopChannels;
 
-		var streamGenres = Object.keys(channels);
-		var selectedChannelGenre = streamGenres[0];
-		var selectedChannelIndex = 0;
+	var streamGenres = Object.keys(channels);
+	var selectedChannelGenre = streamGenres[0];
+	var selectedChannelIndex = 0;
+
+	// Find first live stream
+	$.each(channels, function(genreIndex, channelsInGenre){
+		$.each(channelsInGenre, function(channelIndex, channel){
+			if(embed.getEnded()){
+				setTwitchChannel(channel[0]);
+			}
+		});
+	});
 
 	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -123,8 +125,8 @@
 
 	function playorpauseVideos() {
 		setMoonPhase();
-		//todo: Change musicPlayer pause
-		if(/*musicPlayer.getPlayerState() == 1 ||*/ player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
+
+		if(!musicPlayer.isPaused() || player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
 			musicPlayer.pause();
 			player2.pauseVideo();
 			player3.pauseVideo();
