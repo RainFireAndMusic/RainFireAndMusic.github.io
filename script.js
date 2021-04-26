@@ -51,7 +51,8 @@
 		width: 525,
 		theme: "dark",
 		layout: "video",
-		muted: false
+		muted: false,
+		volume: 100
 	});
 
 	var musicPlayer;
@@ -115,9 +116,7 @@
 
 	// 4. The API will call this function when the video player is ready.
 	function onPlayerReady(event) {
-		event.target.setVolume(50);
-		//if(event.target.a.id == "musicPlayer"){event.target.setVolume(50);} todo: can we do this with Twitch?
-		if(event.target.a.id == "player2"){event.target.setVolume(80);}
+		if(event.target.h.id == "player2"){event.target.setVolume(80);}
 		else{event.target.setVolume(30);}
 		event.target.seekTo(0);
 		event.target.playVideo();
@@ -150,7 +149,7 @@
 
 		musicPlayer.setChannel(channelName);
 		musicPlayer.play();
-		// todo: change musicPlayer reload
+
 		populateStreamList();
 	}
 
@@ -158,26 +157,26 @@
 	function populateStreamList() {
 		$("#musicSources *:not('#genreTabStrip')").remove();
 
-		//createSearchTab();
+		$.each(channels, function(genreName, channelsInGenre){
+			var genreNameAsId = genreName.replace(new RegExp(" ", "g"), "_") + "TabContent";
 
-		$.each(channels, function(key, channelsInGenre){
+			/*
 			var genreTabElement = document.createElement("li");
 			var genreTabLink = document.createElement("a");
-			var keyAsId = key.replace(new RegExp(" ", "g"), "_") + "TabContent";
-			$(genreTabLink).attr("href", "#" + keyAsId);
-			$(genreTabLink).text(key);
+			$(genreTabLink).attr("href", "#" + genreNameAsId);
+			$(genreTabLink).text(genreName);
 			$(genreTabElement).append(genreTabLink);
+			$("#genreTabStrip").append(genreTabElement);
+			*/
 
 			var genreTabContent =  document.createElement("div");
-			$(genreTabContent).attr("id", keyAsId);
+			$(genreTabContent).attr("id", genreNameAsId);
 			$(genreTabContent).css("margin-top", "0.5em");
 			$(genreTabContent).css("width", "100%");
 			$(genreTabContent).css("align-items", "center");
 			$(genreTabContent).css("display", "flex");
 			$(genreTabContent).css("justify-content", "space-evenly");
 			$(genreTabContent).css("padding", 0);
-
-			//$("#genreTabStrip").append(genreTabElement);
 			$("#musicSources").append(genreTabContent);
 
 			for (let c=0; c < channelsInGenre.length; c++){
@@ -194,7 +193,7 @@
 				if(c>0){$(channelIconElement).css("margin-left", "10px");}
 				else{$(channelIconElement).css("margin-left", "0px");}
 
-				if (key == selectedChannelGenre && c == selectedChannelIndex) {
+				if (genreName == selectedChannelGenre && c == selectedChannelIndex) {
 					$(channelIconElement).css("box-shadow", "white 0px 0px 10px 1px");
 
 					var musicLevelsElement = document.createElement("img");
@@ -206,8 +205,6 @@
 					$(musicLevelsElement).css("position", "absolute");
 					$(musicLevelsElement).css("left", parseFloat($(channelIconElement).css("margin-left")));
 					$(musicLevelsElement).css("bottom", 0);
-					//$(musicLevelsElement).css("bottom", parseFloat($("#musicSources").css("padding-bottom")) - 19 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 19 = a magic number. Sorry :T
-					//$(musicLevelsElement).css("left", ($(channelIconElement).width()*c) + (parseFloat($(channelIconElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
 					$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
 					$(channelIconContainer).append(musicLevelsElement);
 				}
