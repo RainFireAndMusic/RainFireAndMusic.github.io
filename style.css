@@ -1,5 +1,5 @@
 *{
-	-webkit-user-select: none; /* Safari */        
+	-webkit-user-select: none; /* Safari */
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
 	user-select: none; /* Standard */
@@ -33,7 +33,7 @@ button {
 #fullscreen:hover{
     cursor: pointer;
     padding: 1px 1px;
-} 
+}
 
 #fullscreen:hover i{
 	font-size: 28px;
@@ -118,7 +118,7 @@ button {
 }
 
 #playerContainer{
-	align-items: center; 
+	align-items: center;
     display: flex;
     justify-content: space-evenly;
 }
@@ -156,7 +156,7 @@ all: unset;
 	font-size: small;
 	padding: 7px;
 	color: white;
-	
+
     background: rgb(255, 255, 255, .03);
 }
 
@@ -176,14 +176,14 @@ all: unset;
     background: rgb(255, 255, 255, .06);
 }
 
-div[id$="MusicSources"] {
+div[id$="musicSources"] {
 	border: unset !important;
 	border-radius: 0px 0px 10px 10px !important;
 	background: rgb(255, 255, 255, .05);
 	bottom: -182px; /* 0 - height - padding-top - padding-bottom */
 	height: 127px;
 	width: calc(100% - 70px); /* subtracted value is ((margin-right*2) + padding-right + padding-left) */
-	margin-right: 15px; 
+	margin-right: 15px;
 	padding: 20px;
 	padding-bottom: 35px; /* padding-top + scrollbar height */
 	position: absolute;
@@ -193,41 +193,41 @@ div[id$="MusicSources"] {
 	white-space: nowrap;
 }
 
-div[id$="MusicSources"] img{
+div[id$="musicSources"] img{
 	opacity: .5;
 }
 
-div[id$="MusicSources"]:hover {
+div[id$="musicSources"]:hover {
     background: rgb(255, 255, 255, .08);
 }
 
-div[id$="MusicSources"]:hover img{
+div[id$="musicSources"]:hover img{
 	opacity: .6;
 }
 
-div[id$="MusicSources"] img:hover{
+div[id$="musicSources"] img:hover{
 	opacity: .85;
     cursor: pointer;
 }
 
-div[id$="MusicSources"] img:active{
+div[id$="musicSources"] img:active{
 	opacity: 1;
 }
 
-div[id$="MusicSources"]::-webkit-scrollbar-track, div[id$="MusicSources"]::-moz-scrollbar-track
+div[id$="musicSources"]::-webkit-scrollbar-track, div[id$="musicSources"]::-moz-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	border-radius: 10px;
 	background-color: dark-grey;
 }
 
-div[id$="MusicSources"]::-webkit-scrollbar, div[id$="MusicSources"]::-moz-scrollbar
+div[id$="musicSources"]::-webkit-scrollbar, div[id$="musicSources"]::-moz-scrollbar
 {
 	height: 15px; /* Changing this value will affect the positioning of elements created in "populateStreamList()". You will need to update this value there if changed here. */
 	background-color: dark-grey;
 }
 
-div[id$="MusicSources"]::-webkit-scrollbar-thumb, div[id$="MusicSources"]::-moz-scrollbar-thumb
+div[id$="musicSources"]::-webkit-scrollbar-thumb, div[id$="musicSources"]::-moz-scrollbar-thumb
 {
 	border-radius: 10px;
 	width: 1px;
@@ -250,7 +250,7 @@ div[id$="MusicSources"]::-webkit-scrollbar-thumb, div[id$="MusicSources"]::-moz-
 
 #stars, #twinkling {
   position:absolute;
-  
+
   left:0;
   right:0;
   width:100%;
@@ -369,7 +369,7 @@ position:absolute;
   }
 }
 
-#REVerseWatermark {
+#watermark {
 	display:none;
 	font-family: Alegreya sans;
     color: white;
@@ -417,21 +417,21 @@ section
     -o-animation: one 5s ease-in-out infinite alternate;
     animation: one 5s ease-in-out infinite alternate;
 }
-@-webkit-keyframes 
+@-webkit-keyframes
 one { from {
 -webkit-box-shadow: 0 0 250px 20px #473C78;
 }
 
 to { -webkit-box-shadow: 0 0 100px 15px #F72A3B; }
 }
-@-moz-keyframes 
+@-moz-keyframes
 one { from {
 -moz-box-shadow: 0 0 250px 20px #473C78;
 }
 
 to { -moz-box-shadow: 0 0 100px 15px #F72A3B; }
 }
-@-o-keyframes 
+@-o-keyframes
 one { from {
 -o-box-shadow: 0 0 250px 20px #473C78;
 }
@@ -439,7 +439,7 @@ one { from {
 to { -o-box-shadow: 0 0 100px 15px #F72A3B; }
 }
 
-@keyframes 
+@keyframes
 one { from {
 box-shadow: 0 0 250px 20px #473C78;
 }
@@ -457,21 +457,21 @@ to {box-shadow: 0 0 100px 15px #F72A3B; }
     -o-animation: two 4s ease-in-out infinite alternate;
     animation: two 4s ease-in-out infinite alternate;
 }
-@-webkit-keyframes 
+@-webkit-keyframes
 two { from {
 -webkit-box-shadow: 0 0 250px 20px #18C499;
 }
 
 to { -webkit-box-shadow: 0 0 100px 15px #D8F05E; }
 }
-@-moz-keyframes 
+@-moz-keyframes
 two { from {
 -moz-box-shadow: 0 0 250px 20px #18C499;
 }
 
 to { -moz-box-shadow: 0 0 100px 15px #D8F05E; }
 }
-@-o-keyframes 
+@-o-keyframes
 two { from {
 -o-box-shadow: 0 0 250px 20px #18C499;
 }
@@ -479,7 +479,7 @@ two { from {
 to { -o-box-shadow: 0 0 100px 15px #D8F05E; }
 }
 
-@keyframes 
+@keyframes
 two { from {
 box-shadow: 0 0 250px 20px #18C499;
 }
@@ -497,21 +497,21 @@ to { box-shadow: 0 0 100px 15px #D8F05E; }
     -o-animation: three 3s ease-in-out infinite alternate;
     animation: three 3s ease-in-out infinite alternate;
 }
-@-webkit-keyframes 
+@-webkit-keyframes
 three { from {
 -webkit-box-shadow: 0 0 250px 20px #FFDD00;
 }
 
 to { -webkit-box-shadow: 0 0 100px 15px #3E33FF; }
 }
-@-moz-keyframes 
+@-moz-keyframes
 three { from {
 -moz-box-shadow: 0 0 250px 20px #FFDD00;
 }
 
 to { -moz-box-shadow: 0 0 100px 15px #3E33FF }
 }
-@-o-keyframes 
+@-o-keyframes
 three { from {
 -o-box-shadow: 0 0 250px 20px #FFDD00;
 }
@@ -519,7 +519,7 @@ three { from {
 to { -o-box-shadow: 0 0 100px 15px #3E33FF }
 }
 
-@keyframes 
+@keyframes
 three { from {
 box-shadow: 0 0 250px 20px #FFDD00;
 }
@@ -537,21 +537,21 @@ to { box-shadow: 0 0 100px 15px #3E33FF }
     -o-animation: four 2s ease-in-out infinite alternate;
     animation: four 2s ease-in-out infinite alternate;
 }
-@-webkit-keyframes 
+@-webkit-keyframes
 four { from {
 -webkit-box-shadow: 0 0 250px 20px #781848;
 }
 
 to { -webkit-box-shadow: 0 0 100px 15px #F2BBE9; }
 }
-@-moz-keyframes 
+@-moz-keyframes
 four { from {
 -moz-box-shadow: 0 0 250px 20px #781848;
 }
 
 to { -moz-box-shadow: 0 0 100px 15px #F2BBE9; }
 }
-@-o-keyframes 
+@-o-keyframes
 four { from {
 -o-box-shadow: 0 0 250px 20px #781848;
 }
@@ -559,7 +559,7 @@ four { from {
 to { -o-box-shadow: 0 0 100px 15px #F2BBE9; }
 }
 
-@keyframes 
+@keyframes
 four { from {
 shadow: 0 0 250px 20px #781848;
 }
@@ -577,21 +577,21 @@ to { shadow: 0 0 100px 15px #F2BBE9; }
     -o-animation: five 1s ease-in-out infinite alternate;
     animation: five 1s ease-in-out infinite alternate;
 }
-@-webkit-keyframes 
+@-webkit-keyframes
 five { from {
 -webkit-box-shadow: 0 0 250px 20px #42F2A1;
 }
 
 to { -webkit-box-shadow: 0 0 100px 15px #F4F6AD; }
 }
-@-moz-keyframes 
+@-moz-keyframes
 five { from {
 -moz-box-shadow: 0 0 250px 20px #42F2A1;
 }
 
 to { -moz-box-shadow: 0 0 100px 15px #F4F6AD; }
 }
-@-o-keyframes 
+@-o-keyframes
 five { from {
 -o-box-shadow: 0 0 250px 20px #42F2A1;
 }
@@ -599,16 +599,12 @@ five { from {
 to { -o-box-shadow: 0 0 100px 15px #F4F6AD; }
 }
 
-@keyframes 
+@keyframes
 five { from {
 box-shadow: 0 0 250px 20px #42F2A1;
 }
 
 to { box-shadow: 0 0 100px 15px #F4F6AD; }
-}
-
-#REVerseWatermark:hover {
-    opacity: 0.4;
 }
 
   .ui-tabs-vertical { width: 55em; }

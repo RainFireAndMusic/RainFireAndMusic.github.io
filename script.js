@@ -34,24 +34,27 @@
 	};
 
 	function showMusicSources(videoContainer){
-		var musicSources = $(videoContainer).find('div[id$="MusicSources"]');
+		var musicSources = $(videoContainer).find('div[id$="musicSources"]');
 		musicSources.stop(true, true);
 		musicSources.show();
 	}
 
 	function hideMusicSources(videoContainer){
-		$(videoContainer).find('div[id$="MusicSources"]').hide("fade", {}, 1000);
+		$(videoContainer).find('div[id$="musicSources"]').hide("fade", {}, 1000);
 	}
 	//General funcs		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	//Twitch streams  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-	player1 = new Twitch.Embed("player1", {
+	embed = new Twitch.Embed("musicPlayer", {
 		channel: "chillhopmusic",
 		height: 295,
 		width: 525,
 		theme: "dark",
 		layout: "video"
 	});
+
+	var musicPlayer;
+	musicPlayer = embed.getPlayer();
 	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	//Youtube videos	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -86,7 +89,6 @@
 
 	// 3. This function creates an <iframe> (and YouTube player)
 	//    after the API code downloads.
-	var player1;
 	var player2;
 	var player3;
 	function onYouTubeIframeAPIReady() {
@@ -113,7 +115,7 @@
 	// 4. The API will call this function when the video player is ready.
 	function onPlayerReady(event) {
 		event.target.setVolume(50);
-		//if(event.target.a.id == "player1"){event.target.setVolume(50);} todo: can we do this with Twitch?
+		//if(event.target.a.id == "musicPlayer"){event.target.setVolume(50);} todo: can we do this with Twitch?
 		if(event.target.a.id == "player2"){event.target.setVolume(80);}
 		else{event.target.setVolume(30);}
 		event.target.seekTo(0);
@@ -122,19 +124,19 @@
 
 	function playorpauseVideos() {
 		setMoonPhase();
-		//todo: Change Player1 pause
-		if(/*player1.getPlayerState() == 1 ||*/ player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
-			//player1.pauseVideo();
+		//todo: Change musicPlayer pause
+		if(/*musicPlayer.getPlayerState() == 1 ||*/ player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
+			//musicPlayer.pauseVideo();
 			player2.pauseVideo();
 			player3.pauseVideo();
 		}else{
-		//	player1.playVideo();
+		//	musicPlayer.playVideo();
 			player2.playVideo();
 			player3.playVideo();
 		}
 	}
 
-	function reloadPlayer1(streamId){
+	function reloadmusicPlayer(streamId){
 		$.each(streamIds, function(key, streamIdsInGenre){
 			if($.inArray(streamId, streamIdsInGenre) > -1){
 				selectedStreamGenre = key;
@@ -143,8 +145,8 @@
 		});
 
 		selectedStreamIndex = streamIds[selectedStreamGenre].indexOf(streamId);
-		// todo: change player1 reload
-		//player1.loadVideoById(streamId);
+		// todo: change musicPlayer reload
+		//musicPlayer.loadVideoById(streamId);
 		populateStreamList();
 	}
 
@@ -161,7 +163,7 @@
 		$(searchTabContent).css("margin-top", "0.5em");
 
 		$("#genreTabStrip").append(searchTabElement);
-		$("#player1MusicSources").append(searchTabContent);
+		$("#musicSources").append(searchTabContent);
 
 		var searchTextboxElement = document.createElement("input");
 		$(searchTabContent).append(searchTextboxElement);
@@ -172,7 +174,7 @@
 			$(streamThumbnailElement).height('100px');
 			$(streamThumbnailElement).width('133px');
 			$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
-			$(streamThumbnailElement).attr("onclick", "reloadPlayer1('" + streamIdsInGenre[c] + "')");
+			$(streamThumbnailElement).attr("onclick", "reloadmusicPlayer('" + streamIdsInGenre[c] + "')");
 			$(searchTabContent).append(streamThumbnailElement);
 
 			if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
@@ -188,8 +190,8 @@
 				$(musicLevelsElement).attr("src", "Images/levels.gif");
 				$(musicLevelsElement).attr("class", "selectedStreamOverlay");
 				$(musicLevelsElement).css("position", "absolute");
-				$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 9 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 9 = a magic number. Sorry :T
-				$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")) + 12.5);
+				$(musicLevelsElement).css("bottom", parseFloat($("#musicSources").css("padding-bottom")) - 9 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 9 = a magic number. Sorry :T
+				$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 12.5);
 				$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
 
 				$(searchTabContent).append(musicLevelsElement);
@@ -200,7 +202,7 @@
 
 	//Populate the list of streams
 	function populateStreamList() {
-		$("#player1MusicSources *:not('#genreTabStrip')").remove();
+		$("#musicSources *:not('#genreTabStrip')").remove();
 
 		//createSearchTab();
 
@@ -217,14 +219,14 @@
 			$(genreTabContent).css("margin-top", "0.5em");
 
 			$("#genreTabStrip").append(genreTabElement);
-			$("#player1MusicSources").append(genreTabContent);
+			$("#musicSources").append(genreTabContent);
 
 			for (let c=0; c < streamIdsInGenre.length; c++){
 				var streamThumbnailElement = document.createElement("img");
 				$(streamThumbnailElement).height('100px');
 				$(streamThumbnailElement).width('133px');
 				$(streamThumbnailElement).attr("src", "https://img.youtube.com/vi/" + streamIdsInGenre[c] + "/0.jpg");
-				$(streamThumbnailElement).attr("onclick", "reloadPlayer1('" + streamIdsInGenre[c] + "')");
+				$(streamThumbnailElement).attr("onclick", "reloadmusicPlayer('" + streamIdsInGenre[c] + "')");
 				$(genreTabContent).append(streamThumbnailElement);
 
 				if(c>0){$(streamThumbnailElement).css("margin-left", "10px");}
@@ -240,8 +242,8 @@
 					$(musicLevelsElement).attr("src", "Images/levels.gif");
 					$(musicLevelsElement).attr("class", "selectedStreamOverlay");
 					$(musicLevelsElement).css("position", "absolute");
-					$(musicLevelsElement).css("bottom", parseFloat($("#player1MusicSources").css("padding-bottom")) - 19 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 19 = a magic number. Sorry :T
-					$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#player1MusicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
+					$(musicLevelsElement).css("bottom", parseFloat($("#musicSources").css("padding-bottom")) - 19 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 19 = a magic number. Sorry :T
+					$(musicLevelsElement).css("left", ($(streamThumbnailElement).width()*c) + (parseFloat($(streamThumbnailElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
 					$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
 
 					$(genreTabContent).append(musicLevelsElement);
@@ -249,8 +251,8 @@
 			}
 		});
 
-		$("#player1MusicSources").tabs().tabs('destroy').tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
-        $("#player1MusicSources li").removeClass('ui-corner-top').addClass('ui-corner-left');
+		$("#musicSources").tabs().tabs('destroy').tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+        $("#musicSources li").removeClass('ui-corner-top').addClass('ui-corner-left');
 
 		var indexOfSelectedStream = streamGenres.indexOf(selectedStreamGenre)
 		$("#genreTabStrip li a")[indexOfSelectedStream].click()
@@ -303,7 +305,7 @@
 		}, 10000);
 		populateStreamList();
 		setMoonPhase();
-		$('[id$="MusicSources"]').hide();
+		$('[id$="musicSources"]').hide();
 	});
 	//Shooting stars		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
