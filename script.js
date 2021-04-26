@@ -54,6 +54,13 @@
 		muted: false
 	});
 
+	embed.addEventListener(Twitch.Embed.VIDEO_READY, function() {
+	  console.log('The video is ready');
+	});
+	embed.addEventListener(Twitch.Embed.VIDEO_PLAY, function() {
+	  console.log('The video is playing');
+	});
+
 	var musicPlayer;
 	musicPlayer = embed.getPlayer();
 
