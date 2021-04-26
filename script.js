@@ -144,16 +144,15 @@
 	}
 
 	function setTwitchChannel(channelName){
-		$.each(channels, function(key, channelsInGenre){
-			if($.inArray(channelName, channelsInGenre) > -1){
-			  //TODO: this won't work with new array structure
-				selectedChannelGenre = key;
-				return false;
-			}
+		$.each(channels, function(genreIndex, channelsInGenre){
+			$.each(channelsInGenre, function(channelIndex, channel){
+				if(channelName == channel[0]){
+					selectedChannelGenre = genreIndex;
+					selectedChannelIndex = channelIndex;
+					return false;
+				}
+			});
 		});
-
-			//TODO: this won't work with new array structure
-		selectedChannelIndex = channels[selectedChannelGenre].indexOf(channelName);
 
 		musicPlayer.setChannel(channelName);
 		musicPlayer.play();
@@ -228,17 +227,24 @@
 			var genreTabContent =  document.createElement("div");
 			$(genreTabContent).attr("id", keyAsId);
 			$(genreTabContent).css("margin-top", "0.5em");
+			$(genreTabContent).css("width", "100%");
+			$(genreTabContent).css("align-items", "center");
+			$(genreTabContent).css("display", "flex");
+			$(genreTabContent).css("justify-content", "space-evenly");
 
 			$("#genreTabStrip").append(genreTabElement);
 			$("#musicSources").append(genreTabContent);
 
 			for (let c=0; c < channelsInGenre.length; c++){
+				var channelIconContainer = document.createElement("div");
+				$(channelIconContainer).css("position", "relative");
+
 				var channelIconElement = document.createElement("img");
 				$(channelIconElement).height('100px');
 				$(channelIconElement).width('133px');
 				$(channelIconElement).attr("src", channelsInGenre[c][1]);
 				$(channelIconElement).attr("onclick", "setTwitchChannel('" + channelsInGenre[c][0] + "')");
-				$(genreTabContent).append(channelIconElement);
+				$(channelIconContainer).append(channelIconElement);
 
 				if(c>0){$(channelIconElement).css("margin-left", "10px");}
 				else{$(channelIconElement).css("margin-left", "0px");}
@@ -253,12 +259,15 @@
 					$(musicLevelsElement).attr("src", "Images/levels.gif");
 					$(musicLevelsElement).attr("class", "selectedChannelOverlay");
 					$(musicLevelsElement).css("position", "absolute");
-					$(musicLevelsElement).css("bottom", parseFloat($("#musicSources").css("padding-bottom")) - 19 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 19 = a magic number. Sorry :T
-					$(musicLevelsElement).css("left", ($(channelIconElement).width()*c) + (parseFloat($(channelIconElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
+					$(musicLevelsElement).css("left", parseFloat($(channelIconElement).css("margin-left")));
+					$(musicLevelsElement).css("bottom", 0);
+					//$(musicLevelsElement).css("bottom", parseFloat($("#musicSources").css("padding-bottom")) - 19 - 0 + "px"); //15 = horizontal scrollbar height. Changed to 0 becuase scrollbar removed. 19 = a magic number. Sorry :T
+					//$(musicLevelsElement).css("left", ($(channelIconElement).width()*c) + (parseFloat($(channelIconElement).css("margin-left"))*c) + parseFloat($("#musicSources").css("padding-left")) + 19.5); //19.5 was originally 12.5 idk where the 12.5 originally came from. Guess this is a magic number now :I
 					$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
-
-					$(genreTabContent).append(musicLevelsElement);
+					$(channelIconContainer).append(musicLevelsElement);
 				}
+
+				$(genreTabContent).append(channelIconContainer);
 			}
 		});
 
