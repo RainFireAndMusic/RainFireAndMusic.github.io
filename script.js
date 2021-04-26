@@ -50,7 +50,8 @@
 		height: 295,
 		width: 525,
 		theme: "dark",
-		layout: "video"
+		layout: "video",
+		muted: false
 	});
 
 	var musicPlayer;
