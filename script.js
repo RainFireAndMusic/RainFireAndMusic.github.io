@@ -72,8 +72,9 @@
 
 	// Find first live stream
 	embed.addEventListener(Twitch.Embed.OFFLINE, function() {
+		console.log("Searching for live channel...");
 		var pastCurrentChannel = false;
-		var shouldBailOutOfLoop = false;
+		var foundLiveChannel = false;
 		$.each(channels, function(genreIndex, channelsInGenre){
 			$.each(channelsInGenre, function(channelIndex, channel){
 				if(channel[0] == musicPlayer.getChannel()){
@@ -81,15 +82,15 @@
 				}else if(pastCurrentChannel){
 					console.log("setting channel to: " + channel[0]);
 					setTwitchChannel(channel[0]);
-					shouldBailOutOfLoop = true;
+					foundLiveChannel = true;
 				}
-				return !shouldBailOutOfLoop;
+				return !foundLiveChannel;
 			});
-			return !shouldBailOutOfLoop;
+			return !foundLiveChannel;
 		});
-	});
-	embed.addEventListener(Twitch.Embed.ONLINE, function() {
-		console.log("online!");
+		if(!foundLiveChannel){
+			console.log("No channels are online :(");
+		}
 	});
 
 	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
