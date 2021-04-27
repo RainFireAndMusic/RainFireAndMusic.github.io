@@ -71,16 +71,15 @@
 	var selectedChannelIndex = 0;
 
 	// Find first live stream
-	embed.addEventListener(Twitch.Embed.VIDEO_READY, function() {
-		var pastCurrentChannel = false;
-		$.each(channels, function(genreIndex, channelsInGenre){
-			$.each(channelsInGenre, function(channelIndex, channel){
-				if(channel[0] == musicPlayer.getChannel()){
-					pastCurrentChannel = true;
-				}else if(pastCurrentChannel && musicPlayer.getDuration()==0){
+	var liveStreamFound = false;
+	$.each(channels, function(genreIndex, channelsInGenre){
+		$.each(channelsInGenre, function(channelIndex, channel){
+			.getJSON('https://api.twitch.tv/kraken/streams/' + channel[0], function(return) {
+		    if (return["stream"] != null $$ !liveStreamFound) {
 					console.log("setting channel to: " + channel[0]);
+					liveStreamFound = true;
 					setTwitchChannel(channel[0]);
-				}
+		    }
 			});
 		});
 	});
