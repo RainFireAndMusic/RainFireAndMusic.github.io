@@ -72,6 +72,7 @@
 
 	// Find first live stream
 	embed.addEventListener(Twitch.Embed.OFFLINE, function() {
+		console.log(musicPlayer.getChannel() + " is offline.");
 		console.log("Searching for live channel...");
 		var pastCurrentChannel = false;
 		var foundLiveChannel = false;
@@ -80,7 +81,7 @@
 				if(channel[0] == musicPlayer.getChannel()){
 					pastCurrentChannel = true;
 				}else if(pastCurrentChannel){
-					console.log("setting channel to: " + channel[0]);
+					console.log("Setting channel to: " + channel[0]);
 					setTwitchChannel(channel[0]);
 					foundLiveChannel = true;
 				}
