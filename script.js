@@ -89,7 +89,7 @@
 			return !foundLiveChannel;
 		});
 		if(!foundLiveChannel){
-			console.log("No channels are online :(");
+			console.log("No channels are live :(");
 		}
 	});
 
