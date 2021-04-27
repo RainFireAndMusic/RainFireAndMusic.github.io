@@ -71,12 +71,17 @@
 	var selectedChannelIndex = 0;
 
 	// Find first live stream
-	$.each(channels, function(genreIndex, channelsInGenre){
-		$.each(channelsInGenre, function(channelIndex, channel){
-			if(musicPlayer.getDuration()==0){
-				console.log("setting channel to: " + channel[0]);
-				setTwitchChannel(channel[0]);
-			}
+	embed.addEventListener(Twitch.Embed.VIDEO_READY, function() {
+		var pastCurrentChannel = false;
+		$.each(channels, function(genreIndex, channelsInGenre){
+			$.each(channelsInGenre, function(channelIndex, channel){
+				if(channel[0] == musicPlayer.getChannel()){
+					pastCurrentChannel = true;
+				}else if(pastCurrentChannel && musicPlayer.getDuration()==0){
+					console.log("setting channel to: " + channel[0]);
+					setTwitchChannel(channel[0]);
+				}
+			});
 		});
 	});
 
