@@ -73,7 +73,7 @@
 	// Find first live stream
 	$.each(channels, function(genreIndex, channelsInGenre){
 		$.each(channelsInGenre, function(channelIndex, channel){
-			if(embed.getEnded()){
+			if(musicPlayer.getDuration()==0){
 				setTwitchChannel(channel[0]);
 			}
 		});
