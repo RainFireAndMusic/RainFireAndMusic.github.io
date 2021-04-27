@@ -71,16 +71,21 @@
 	var selectedChannelIndex = 0;
 
 	// Find first live stream
-	var liveStreamFound = false;
-	$.each(channels, function(genreIndex, channelsInGenre){
-		$.each(channelsInGenre, function(channelIndex, channel){
-			$.getJSON('https://api.twitch.tv/kraken/streams/' + channel[0], function(apiReturn) {
-		    if ((apiReturn["stream"] != null && !liveStreamFound) || channel[0] != "chillhopmusic") {
+	embed.addEventListener(Twitch.Embed.VIDEO_READY, function() {
+		var pastCurrentChannel = false;
+		var shouldBailOutOfLoop = false;
+		$.each(channels, function(genreIndex, channelsInGenre){
+			$.each(channelsInGenre, function(channelIndex, channel){
+				if(channel[0] == musicPlayer.getChannel()){
+					pastCurrentChannel = true;
+				}else if(pastCurrentChannel && musicPlayer.getQualities().length == 0){
 					console.log("setting channel to: " + channel[0]);
-					liveStreamFound = true;
 					setTwitchChannel(channel[0]);
-		    }
+					shouldBailOutOfLoop = true;
+				}
+				if(shouldBailOutOfLoop) break;
 			});
+			if(shouldBailOutOfLoop) break;
 		});
 	});
 
