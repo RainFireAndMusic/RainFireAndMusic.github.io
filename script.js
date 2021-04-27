@@ -88,6 +88,9 @@
 			return !shouldBailOutOfLoop;
 		});
 	});
+	embed.addEventListener(Twitch.Embed.ONLINE, function() {
+		console.log("online!");
+	});
 
 	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
