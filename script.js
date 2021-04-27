@@ -74,7 +74,7 @@
 	var liveStreamFound = false;
 	$.each(channels, function(genreIndex, channelsInGenre){
 		$.each(channelsInGenre, function(channelIndex, channel){
-			.getJSON('https://api.twitch.tv/kraken/streams/' + channel[0], function(return) {
+			$.getJSON('https://api.twitch.tv/kraken/streams/' + channel[0], function(return) {
 		    if (return["stream"] != null $$ !liveStreamFound) {
 					console.log("setting channel to: " + channel[0]);
 					liveStreamFound = true;
