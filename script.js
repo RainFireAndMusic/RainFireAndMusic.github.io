@@ -83,9 +83,9 @@
 					setTwitchChannel(channel[0]);
 					shouldBailOutOfLoop = true;
 				}
-				if(shouldBailOutOfLoop) break;
+				return !shouldBailOutOfLoop;
 			});
-			if(shouldBailOutOfLoop) break;
+			return !shouldBailOutOfLoop;
 		});
 	});
 
