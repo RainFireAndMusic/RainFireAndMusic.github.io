@@ -71,7 +71,7 @@
 	var selectedChannelIndex = 0;
 
 	// Find first live stream
-	musicPlayer.addEventListener(Twitch.Player.OFFLINE, function() {
+	embed.addEventListener(Twitch.Embed.OFFLINE, function() {
 		var pastCurrentChannel = false;
 		var shouldBailOutOfLoop = false;
 		$.each(channels, function(genreIndex, channelsInGenre){
