@@ -121,16 +121,16 @@
 	var player2;
 	var player3;
 	function onYouTubeIframeAPIReady() {
-		player2 = new YT.Player('player2', {
+		player2 = new YT.Player('player2', { // Fireplace
 			host: 'https://www.youtube.com',
 			height: '239',
 			width: '425',
-			videoId: 'ZY3J3Y_OU0w',
+			videoId: 'cdKop6aixVE',
 			events: {
 			'onReady': onPlayerReady
 			}
 		});
-		player3 = new YT.Player('player3', {
+		player3 = new YT.Player('player3', { // Rain
 			host: 'https://www.youtube.com',
 			height: '239',
 			width: '425',
