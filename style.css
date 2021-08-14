@@ -47,7 +47,7 @@ button {
 	min-height: 125px;
 }
 
-#globalplaypause {
+#globalPlayPause {
 	border: 1px solid #383838;
 	border-radius: 100%;
 	top: 0px;
@@ -87,17 +87,17 @@ button {
 	opacity: .9;
 }
 
-#globalplaypause:hover {
+#globalPlayPause:hover {
 	border: 2px solid white;
     background-color: rgb(255, 255, 255, .07);
 }
 
 
-#globalplaypause:hover i{
+#globalPlayPause:hover i{
 	font-size: 26px;
 }
 
-#globalplaypause:active{
+#globalPlayPause:active{
     background-color: rgb(255, 255, 255, .12);
 }
 
@@ -115,6 +115,43 @@ button {
 	font-weight: 900;
 	font-size: 2em;
 	letter-spacing: .5em;
+}
+
+#playerTabsContainer {
+	width: 525px;
+}
+
+#playerTabsContainer div:first-child {
+	border-top-left-radius: 10px;
+}
+
+#playerTabsContainer > div[id$="Tab"] {
+	background-color: white;
+	display: inline-block;
+	opacity: 0.25;
+	padding: 3px;
+}
+
+#playerTabsContainer > div[id$="Tab"]:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
+#playerTabsContainer > div[id$="Tab"].selectedTab {
+	opacity: 0.6;
+}
+
+#playerTabsContainer > div[id$="Tab"].selectedTab:hover {
+	opacity: 1;
+}
+
+#playerTabsContainer div:last-child {
+	border-top-right-radius: 10px;
+}
+
+.tabIcon {
+	height: 30px;
+	width: 30px;
 }
 
 #playerContainer{

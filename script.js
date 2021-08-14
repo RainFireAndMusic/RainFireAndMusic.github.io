@@ -33,6 +33,28 @@
 		return sick_neon_colors[Math.floor(Math.random()*sick_neon_colors.length)];
 	};
 
+	var TWITCH_PLAYER_INDEX = 0;
+	var YOUTUBE_PLAYER_INDEX = 1;
+	var currentPlayerTab = $("#playerTabsContainer div:first-child");
+	var currentPlayerIndex = TWITCH_PLAYER_INDEX;
+	var players;
+	function showPlayerTab(newPlayerTab, newPlayerIndex){
+		let currentPlayer = players[currentPlayerIndex];
+		let newPlayer = players[newPlayerIndex];
+
+		$(currentPlayerTab).removeClass("selectedTab");
+		$(newPlayerTab).addClass("selectedTab");
+		currentPlayerTab = newPlayerTab;
+
+		mainPlayerPause();
+
+		$(currentPlayer).hide();
+		$(newPlayer).show();
+
+		currentPlayerIndex = newPlayerIndex;
+		mainPlayerPlay();
+	}
+
 	function showMusicSources(videoContainer){
 		var musicSources = $(videoContainer).find('div[id$="musicSources"]');
 		musicSources.stop(true, true);
@@ -45,7 +67,7 @@
 	//General funcs		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	//Twitch streams  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-	embed = new Twitch.Embed("musicPlayer", {
+	embed = new Twitch.Embed("twitchMusicPlayer", {
 		channel: "chillhopmusic",
 		height: 295,
 		width: 525,
@@ -55,8 +77,8 @@
 		volume: 100
 	});
 
-	var musicPlayer;
-	musicPlayer = embed.getPlayer();
+	var twitchMusicPlayer;
+	twitchMusicPlayer = embed.getPlayer();
 
 	// channelName, channelIconUrl
  	var chillHopChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
@@ -73,7 +95,7 @@
 
 	// Find live channel
 	embed.addEventListener(Twitch.Embed.OFFLINE, function() {
-		console.log(musicPlayer.getChannel() + " is offline.");
+		console.log(twitchMusicPlayer.getChannel() + " is offline.");
 
 		if(!searchingForLiveChannel){
 			console.log("Searching for live channel...");
@@ -84,7 +106,7 @@
 			var pastCurrentChannel = false;
 			$.each(channels, function(genreIndex, channelsInGenre){
 				$.each(channelsInGenre, function(channelIndex, channel){
-					if(channel[0] == musicPlayer.getChannel()){
+					if(channel[0] == twitchMusicPlayer.getChannel()){
 						pastCurrentChannel = true;
 					}else if(pastCurrentChannel){
 						console.log("Setting channel to: " + channel[0]);
@@ -103,7 +125,7 @@
 
 	embed.addEventListener(Twitch.Embed.ONLINE, function() {
 		searchingForLiveChannel = false;
-		console.log(musicPlayer.getChannel() + " is online!");
+		console.log(twitchMusicPlayer.getChannel() + " is online!");
 	});
 
 	//Twitch streams  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -118,48 +140,100 @@
 
 	// 3. This function creates an <iframe> (and YouTube player)
 	//    after the API code downloads.
-	var player2;
-	var player3;
+	var playerLeft;
+	var mainYoutubePlayer;
+	var playerRight;
 	function onYouTubeIframeAPIReady() {
-		player2 = new YT.Player('player2', { // Fireplace
+		playerLeft = new YT.Player('playerLeft', { // Fireplace
 			host: 'https://www.youtube.com',
 			height: '239',
 			width: '425',
 			videoId: 'cdKop6aixVE',
 			events: {
-			'onReady': onPlayerReady
+			'onReady': onPlayerReadySidePlayers
 			}
 		});
-		player3 = new YT.Player('player3', { // Rain
+		mainYoutubePlayer = new YT.Player('youtubeMusicPlayer', { // Main Player
+			host: 'https://www.youtube.com',
+			height: '295',
+			width: '525',
+			videoId: 'g9c2WTCj0Pk',
+			events: {
+			'onReady': onPlayerReadyMainYoutubePlayer
+			}
+		});
+		playerRight = new YT.Player('playerRight', { // Rain
 			host: 'https://www.youtube.com',
 			height: '239',
 			width: '425',
 			videoId: 'aDfZ6STAfqA',
 			events: {
-			'onReady': onPlayerReady
+			'onReady': onPlayerReadySidePlayers
 			}
 		});
 	}
 
 	// 4. The API will call this function when the video player is ready.
-	function onPlayerReady(event) {
-		if(event.target.h.id == "player2"){event.target.setVolume(80);}
+	function onPlayerReadySidePlayers(event) {
+		if(event.target.h.id == "playerLeft"){event.target.setVolume(80);}
 		else{event.target.setVolume(30);}
 		event.target.seekTo(0);
 		event.target.playVideo();
 	}
 
-	function playorpauseVideos() {
+	// 4. The API will call this function when the video player is ready.
+	function onPlayerReadyMainYoutubePlayer(event) {
+		event.target.setVolume(80);
+		event.target.seekTo(0);
+
+		players = $("#mainPlayerContainer").children();
+		currentPlayer = players[0];
+	}
+
+	function isMainPlayerPaused() {
+		switch(currentPlayerIndex) {
+			case TWITCH_PLAYER_INDEX:
+				return twitchMusicPlayer.isPaused();
+				break;
+			case YOUTUBE_PLAYER_INDEX:
+				return mainYoutubePlayer.getPlayerState() != 1;
+				break;
+		}
+	}
+
+	function mainPlayerPause() {
+		switch(currentPlayerIndex) {
+			case TWITCH_PLAYER_INDEX:
+				twitchMusicPlayer.pause();
+				break;
+			case YOUTUBE_PLAYER_INDEX:
+				mainYoutubePlayer.pauseVideo();
+				break;
+		}
+	}
+
+	function mainPlayerPlay() {
+			switch(currentPlayerIndex) {
+				case TWITCH_PLAYER_INDEX:
+					twitchMusicPlayer.play();
+					break;
+				case YOUTUBE_PLAYER_INDEX:
+					mainYoutubePlayer.playVideo();
+					break;
+			}
+	}
+
+	function playOrPauseVideos() {
 		setMoonPhase();
 
-		if(!musicPlayer.isPaused() || player2.getPlayerState() == 1 || player3.getPlayerState() == 1){
-			musicPlayer.pause();
-			player2.pauseVideo();
-			player3.pauseVideo();
+		if(!isMainPlayerPaused() || playerLeft.getPlayerState() == 1 || playerRight.getPlayerState() == 1){
+			mainPlayerPause();
+			playerLeft.pauseVideo();
+			playerRight.pauseVideo();
 		}else{
-			musicPlayer.play();
-			player2.playVideo();
-			player3.playVideo();
+			mainPlayerPlay();
+			playerLeft.playVideo();
+			playerRight.playVideo();
 		}
 	}
 
@@ -174,8 +248,8 @@
 			});
 		});
 
-		musicPlayer.setChannel(channelName);
-		musicPlayer.play();
+		twitchMusicPlayer.setChannel(channelName);
+		twitchMusicPlayer.play();
 
 		populateStreamList();
 	}

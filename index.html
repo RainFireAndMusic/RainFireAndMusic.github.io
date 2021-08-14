@@ -41,17 +41,20 @@
 			</div>
 		</div>
 		<div id="contentContainer">
+
 			<div id="controls">
 				<button id="fullscreen" onclick="toggleFullscreen()"><i class="material-icons">fullscreen</i></button>
 			</div>
+
 			<div id="globalplaylausecontainer">
 				<img id="moon" src="Images/moon.png"/>
 				<img id="zeldaMoon" src="Images/zeldaMoon.png" style="display: none"/>
 				<button id="mooncolor"></button>
 				<button id="moonphase"></button>
 				<img id="zeldaMoonEyes" src="Images/zeldaMoonEyes.png" style="display: none"/>
-				<button id="globalplaypause" onclick="playorpauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
+				<button id="globalPlayPause" onclick="playOrPauseVideos()"><i class="material-icons">play_arrow</i><i class="material-icons">pause</i></button>
 			</div>
+
 			<div id="cheatCodeTextboxContainer">
 				<div id="cheatCodeTextbox"></div>
 			</div>
@@ -59,27 +62,38 @@
 			<div id="playerContainer">
 				<div class="videoContainer">
 					<div class="playerContainer">
-						<div class="player" id="player2"></div>
+						<div class="player" id="playerLeft"></div>
 					</div>
 				</div>
 				<div class="videoContainer" onmouseover="showMusicSources(this)" onmouseout="hideMusicSources(this)">
-					<div class="playerContainer">
-						<div class="player" id="musicPlayer"></div>
+					<div id="playerTabsContainer">
+						<div id="twitchTab" class="selectedTab" onclick="showPlayerTab(this, 0)">
+							<img class="tabIcon" src="Images/twitchIcon.png"/>
+						</div>
+						<div id="youtubeTab" onclick="showPlayerTab(this, 1)">
+							<img class="tabIcon" src="Images/youtubeIcon.png"/>
+						</div>
 					</div>
-					<div id="musicSources" onmouseover="showMusicSources(this.parentNode)" onmouseout="hideMusicSources(this.parentNode)" style="display:none">
+					<div id="mainPlayerContainer" class="playerContainer">
+						<div class="player" id="twitchMusicPlayer"></div>
+						<div class="player" id="youtubeMusicPlayer" style="display: none"></div>
+					</div>
+					<div id="musicSources" onmouseover="showMusicSources(this.parentNode)" onmouseout="hideMusicSources(this.parentNode)" style="display: none">
 						<ul id="genreTabStrip">
 						</ul>
 					</div>
 				</div>
 				<div class="videoContainer">
 					<div class="playerContainer">
-						<div class="player" id="player3"></div>
+						<div class="player" id="playerRight"></div>
 					</div>
 				</div>
 			</div>
+
 			<div id="dummyDiv">
 				<h2 id="watermark">Esrever</h2>
-			</div
+			</div>
+
 		</div>
 	</body>
 </html>
