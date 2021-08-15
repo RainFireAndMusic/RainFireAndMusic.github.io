@@ -455,7 +455,6 @@
 		}, 10000);
 		populateSourceList();
 		setMoonPhase();
-		$('[id$="musicSources"]').hide();
 
 		//adblock notification
     if($("#adblockBait").width() > 0) {
