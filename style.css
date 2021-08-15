@@ -119,10 +119,12 @@ button {
 
 #playerTabsContainer {
 	width: 525px;
+	position: absolute;
+	top: -38px; // .tabIcon height + #playerTabsContainer > div[id$="Tab"] padding
 }
 
 #playerTabsContainer div:first-child {
-	border-top-left-radius: 10px;
+	border-top-left-radius: 7px;
 }
 
 #playerTabsContainer > div[id$="Tab"] {
@@ -144,6 +146,8 @@ button {
 #playerTabsContainer > div[id$="Tab"].selectedTab {
 	opacity: 0.7;
 	padding-bottom: 5px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
 	top: 0px;
 }
 
@@ -152,7 +156,7 @@ button {
 }
 
 #playerTabsContainer div:last-child {
-	border-top-right-radius: 10px;
+	border-top-right-radius: 7px;
 }
 
 .tabIcon {

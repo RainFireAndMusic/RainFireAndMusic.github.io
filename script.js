@@ -33,12 +33,12 @@
 		return sick_neon_colors[Math.floor(Math.random()*sick_neon_colors.length)];
 	};
 
-	var TWITCH_PLAYER_INDEX = 0;
-	var YOUTUBE_PLAYER_INDEX = 1;
+	var PLAYER_INDEX_TWITCH = 0;
+	var PLAYER_INDEX_YOUTUBE = 1;
 	var currentPlayerTab = $("#playerTabsContainer div:first-child");
-	var currentPlayerIndex = TWITCH_PLAYER_INDEX;
+	var currentPlayerIndex = PLAYER_INDEX_TWITCH;
 	var players;
-	function showPlayerTab(newPlayerTab, newPlayerIndex){
+	function changePlayerTab(newPlayerTab, newPlayerIndex){
 		let currentPlayer = players[currentPlayerIndex];
 		let newPlayer = players[newPlayerIndex];
 
@@ -53,16 +53,22 @@
 
 		currentPlayerIndex = newPlayerIndex;
 		mainPlayerPlay();
+
+		populateSourceList();
 	}
 
-	function showMusicSources(videoContainer){
+	function showMainPlayerOptions(videoContainer){
 		var musicSources = $(videoContainer).find('div[id$="musicSources"]');
+		var playerTabsContainer = $(videoContainer).find('div[id$="playerTabsContainer"]');
 		musicSources.stop(true, true);
 		musicSources.show();
+		playerTabsContainer.stop(true, true);
+		playerTabsContainer.show();
 	}
 
-	function hideMusicSources(videoContainer){
+	function hideMainPlayerOptions(videoContainer){
 		$(videoContainer).find('div[id$="musicSources"]').hide("fade", {}, 1000);
+		$(videoContainer).find('div[id$="playerTabsContainer"]').hide("fade", {}, 1000);
 	}
 	//General funcs		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -80,17 +86,24 @@
 	var twitchMusicPlayer;
 	twitchMusicPlayer = embed.getPlayer();
 
+	// Twitch
 	// channelName, channelIconUrl
- 	var chillHopChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
+ 	var twitchChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
 													["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"],
 													["chilledcattv" , "https://static-cdn.jtvnw.net/jtv_user_pictures/dd95b22b-4cbe-4083-ae5c-a6e17ac7a398-profile_image-70x70.png"]];
 
-	var channels = {};
-	channels["ChillHop"]  = chillHopChannels;
+	// YouTube
+	var videogameVideoIds = ["g9c2WTCj0Pk", "W5AZeNGB6Ds", "ebmwJnhtMgY"]; // Minecraft, Zelda, World of Warcraft
+ 	var youtubeChannels = {};
+	youtubeChannels["VideoGame"] = videogameVideoIds;
 
-	var streamGenres = Object.keys(channels);
+	var sources = {};
+	sources[0] = twitchChannels;
+	sources[1] = youtubeChannels;
+
+	var streamGenres = Object.keys(youtubeChannels);
 	var selectedChannelGenre = streamGenres[0];
-	var selectedChannelIndex = 0;
+	var selectedChannelIndeces = [0, 0];
 	var searchingForLiveChannel = false;
 
 	// Find live channel
@@ -100,21 +113,18 @@
 		if(!searchingForLiveChannel){
 			console.log("Searching for live channel...");
 			searchingForLiveChannel = true;
-			setTwitchChannel(channels[Object.keys(channels)[0]][0][0]);
+			setTwitchChannel(twitchChannels[0][0]);
 		} else{
 			var areAttemptingAChannel = false;
 			var pastCurrentChannel = false;
-			$.each(channels, function(genreIndex, channelsInGenre){
-				$.each(channelsInGenre, function(channelIndex, channel){
-					if(channel[0] == twitchMusicPlayer.getChannel()){
-						pastCurrentChannel = true;
-					}else if(pastCurrentChannel){
-						console.log("Setting channel to: " + channel[0]);
-						setTwitchChannel(channel[0]);
-						areAttemptingAChannel = true;
-					}
-					return !areAttemptingAChannel;
-				});
+			$.each(twitchChannels, function(channelIndex, channel){
+				if(channel[0] == twitchMusicPlayer.getChannel()){
+					pastCurrentChannel = true;
+				}else if(pastCurrentChannel){
+					console.log("Setting channel to: " + channel[0]);
+					setTwitchChannel(channel[0]);
+					areAttemptingAChannel = true;
+				}
 				return !areAttemptingAChannel;
 			});
 			if(!areAttemptingAChannel){
@@ -144,11 +154,11 @@
 	var mainYoutubePlayer;
 	var playerRight;
 	function onYouTubeIframeAPIReady() {
-		playerLeft = new YT.Player('playerLeft', { // Fireplace
+		playerLeft = new YT.Player('playerLeft', {
 			host: 'https://www.youtube.com',
 			height: '239',
 			width: '425',
-			videoId: 'cdKop6aixVE',
+			videoId: 'cdKop6aixVE',  // Fireplace
 			events: {
 			'onReady': onPlayerReadySidePlayers
 			}
@@ -157,16 +167,16 @@
 			host: 'https://www.youtube.com',
 			height: '295',
 			width: '525',
-			videoId: 'g9c2WTCj0Pk',
+			videoId: youtubeChannels[Object.keys(youtubeChannels)[0]][0], // First Video in first tab
 			events: {
 			'onReady': onPlayerReadyMainYoutubePlayer
 			}
 		});
-		playerRight = new YT.Player('playerRight', { // Rain
+		playerRight = new YT.Player('playerRight', {
 			host: 'https://www.youtube.com',
 			height: '239',
 			width: '425',
-			videoId: 'aDfZ6STAfqA',
+			videoId: 'aDfZ6STAfqA', // Rain
 			events: {
 			'onReady': onPlayerReadySidePlayers
 			}
@@ -179,6 +189,7 @@
 		else{event.target.setVolume(30);}
 		event.target.seekTo(0);
 		event.target.playVideo();
+		console.log("playing");
 	}
 
 	// 4. The API will call this function when the video player is ready.
@@ -192,10 +203,10 @@
 
 	function isMainPlayerPaused() {
 		switch(currentPlayerIndex) {
-			case TWITCH_PLAYER_INDEX:
+			case PLAYER_INDEX_TWITCH:
 				return twitchMusicPlayer.isPaused();
 				break;
-			case YOUTUBE_PLAYER_INDEX:
+			case PLAYER_INDEX_YOUTUBE:
 				return mainYoutubePlayer.getPlayerState() != 1;
 				break;
 		}
@@ -203,10 +214,10 @@
 
 	function mainPlayerPause() {
 		switch(currentPlayerIndex) {
-			case TWITCH_PLAYER_INDEX:
+			case PLAYER_INDEX_TWITCH:
 				twitchMusicPlayer.pause();
 				break;
-			case YOUTUBE_PLAYER_INDEX:
+			case PLAYER_INDEX_YOUTUBE:
 				mainYoutubePlayer.pauseVideo();
 				break;
 		}
@@ -214,10 +225,10 @@
 
 	function mainPlayerPlay() {
 			switch(currentPlayerIndex) {
-				case TWITCH_PLAYER_INDEX:
+				case PLAYER_INDEX_TWITCH:
 					twitchMusicPlayer.play();
 					break;
-				case YOUTUBE_PLAYER_INDEX:
+				case PLAYER_INDEX_YOUTUBE:
 					mainYoutubePlayer.playVideo();
 					break;
 			}
@@ -238,81 +249,143 @@
 	}
 
 	function setTwitchChannel(channelName){
-		$.each(channels, function(genreIndex, channelsInGenre){
-			$.each(channelsInGenre, function(channelIndex, channel){
-				if(channelName == channel[0]){
-					selectedChannelGenre = genreIndex;
-					selectedChannelIndex = channelIndex;
-					return false;
-				}
-			});
+		$.each(twitchChannels, function(channelIndex, channel){
+			if(channelName == channel[0]){
+				//selectedChannelGenre = genreIndex;
+				selectedChannelIndeces[PLAYER_INDEX_TWITCH] = channelIndex;
+				return false;
+			}
 		});
 
 		twitchMusicPlayer.setChannel(channelName);
 		twitchMusicPlayer.play();
 
-		populateStreamList();
+		populateSourceList();
+	}
+
+	function setYoutubeVideo(videoId){
+		$.each(youtubeChannels, function(key, videoIdsInGroup){
+			if($.inArray(videoId, videoIdsInGroup) > -1){
+				return false;
+			}
+		});
+
+		selectedChannelIndeces[PLAYER_INDEX_YOUTUBE] = youtubeChannels[Object.keys(youtubeChannels)[0]].indexOf(videoId); // TODO: Replace Object.keys(youtubeChannels)[0] with current tab index if ever multiple
+		mainYoutubePlayer.loadVideoById(videoId);
+		populateSourceList();
 	}
 
 	//Populate the list of streams
-	function populateStreamList() {
+	function populateSourceList() {
 		$("#musicSources *:not('#genreTabStrip')").remove();
+		var channelsInSource = sources[currentPlayerIndex];
 
-		$.each(channels, function(genreName, channelsInGenre){
-			var genreNameAsId = genreName.replace(new RegExp(" ", "g"), "_") + "TabContent";
+		switch(currentPlayerIndex) {
+			case PLAYER_INDEX_TWITCH:
 
-			/*
-			var genreTabElement = document.createElement("li");
-			var genreTabLink = document.createElement("a");
-			$(genreTabLink).attr("href", "#" + genreNameAsId);
-			$(genreTabLink).text(genreName);
-			$(genreTabElement).append(genreTabLink);
-			$("#genreTabStrip").append(genreTabElement);
-			*/
+				var tabContent =  document.createElement("div");
+				$(tabContent).attr("id", "TwitchTabContent");
+				$(tabContent).css("margin-top", "0.5em");
+				$(tabContent).css("width", "100%");
+				$(tabContent).css("align-items", "center");
+				$(tabContent).css("display", "flex");
+				$(tabContent).css("justify-content", "space-evenly");
+				$(tabContent).css("padding", 0);
+				$("#musicSources").append(tabContent);
 
-			var genreTabContent =  document.createElement("div");
-			$(genreTabContent).attr("id", genreNameAsId);
-			$(genreTabContent).css("margin-top", "0.5em");
-			$(genreTabContent).css("width", "100%");
-			$(genreTabContent).css("align-items", "center");
-			$(genreTabContent).css("display", "flex");
-			$(genreTabContent).css("justify-content", "space-evenly");
-			$(genreTabContent).css("padding", 0);
-			$("#musicSources").append(genreTabContent);
+				for (let c=0; c < channelsInSource.length; c++){
+					var channelIconContainer = document.createElement("div");
+					$(channelIconContainer).css("position", "relative");
 
-			for (let c=0; c < channelsInGenre.length; c++){
-				var channelIconContainer = document.createElement("div");
-				$(channelIconContainer).css("position", "relative");
+					var channelIconElement = document.createElement("img");
+					$(channelIconElement).height('100px');
+					$(channelIconElement).width('133px');
+					$(channelIconElement).attr("src", channelsInSource[c][1]);
+					$(channelIconElement).attr("onclick", "setTwitchChannel('" + channelsInSource[c][0] + "')");
+					$(channelIconContainer).append(channelIconElement);
 
-				var channelIconElement = document.createElement("img");
-				$(channelIconElement).height('100px');
-				$(channelIconElement).width('133px');
-				$(channelIconElement).attr("src", channelsInGenre[c][1]);
-				$(channelIconElement).attr("onclick", "setTwitchChannel('" + channelsInGenre[c][0] + "')");
-				$(channelIconContainer).append(channelIconElement);
+					if(c>0){$(channelIconElement).css("margin-left", "10px");}
+					else{$(channelIconElement).css("margin-left", "0px");}
 
-				if(c>0){$(channelIconElement).css("margin-left", "10px");}
-				else{$(channelIconElement).css("margin-left", "0px");}
+					if (c == selectedChannelIndeces[currentPlayerIndex]) {
+						$(channelIconElement).css("box-shadow", "white 0px 0px 10px 1px");
 
-				if (genreName == selectedChannelGenre && c == selectedChannelIndex) {
-					$(channelIconElement).css("box-shadow", "white 0px 0px 10px 1px");
+						var musicLevelsElement = document.createElement("img");
 
-					var musicLevelsElement = document.createElement("img");
+						$(musicLevelsElement).height($(channelIconElement).height()/3);
+						$(musicLevelsElement).width($(channelIconElement).width());
+						$(musicLevelsElement).attr("src", "Images/levels.gif");
+						$(musicLevelsElement).attr("class", "selectedChannelOverlay");
+						$(musicLevelsElement).css("position", "absolute");
+						$(musicLevelsElement).css("left", parseFloat($(channelIconElement).css("margin-left")));
+						$(musicLevelsElement).css("bottom", 0);
+						$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
+						$(channelIconContainer).append(musicLevelsElement);
+					}
 
-					$(musicLevelsElement).height($(channelIconElement).height()/3);
-					$(musicLevelsElement).width($(channelIconElement).width());
-					$(musicLevelsElement).attr("src", "Images/levels.gif");
-					$(musicLevelsElement).attr("class", "selectedChannelOverlay");
-					$(musicLevelsElement).css("position", "absolute");
-					$(musicLevelsElement).css("left", parseFloat($(channelIconElement).css("margin-left")));
-					$(musicLevelsElement).css("bottom", 0);
-					$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
-					$(channelIconContainer).append(musicLevelsElement);
+					$(tabContent).append(channelIconContainer);
 				}
+				break;
+			case PLAYER_INDEX_YOUTUBE:
+				$.each(channelsInSource, function(genreName, channelsInTab){
+					var tabNameAsId = genreName.replace(new RegExp(" ", "g"), "_") + "TabContent";
 
-				$(genreTabContent).append(channelIconContainer);
-			}
-		});
+					/*
+					var genreTabElement = document.createElement("li");
+					var genreTabLink = document.createElement("a");
+					$(genreTabLink).attr("href", "#" + genreNameAsId);
+					$(genreTabLink).text(genreName);
+					$(genreTabElement).append(genreTabLink);
+					$("#genreTabStrip").append(genreTabElement);
+					*/
+
+					var tabContent =  document.createElement("div");
+					$(tabContent).attr("id", tabNameAsId);
+					$(tabContent).css("margin-top", "0.5em");
+					$(tabContent).css("width", "100%");
+					$(tabContent).css("align-items", "center");
+					$(tabContent).css("display", "flex");
+					$(tabContent).css("justify-content", "space-evenly");
+					$(tabContent).css("padding", 0);
+					$("#musicSources").append(tabContent);
+
+					for (let c=0; c < channelsInTab.length; c++){
+						var channelIconContainer = document.createElement("div");
+						$(channelIconContainer).css("position", "relative");
+
+						var channelIconElement = document.createElement("img");
+						$(channelIconElement).height('100px');
+						$(channelIconElement).width('133px');
+						$(channelIconElement).attr("src", "https://img.youtube.com/vi/" + channelsInTab[c] + "/0.jpg");
+						$(channelIconElement).attr("onclick", "setYoutubeVideo('" + channelsInTab[c] + "')");
+						$(channelIconContainer).append(channelIconElement);
+
+						if(c>0){$(channelIconElement).css("margin-left", "10px");}
+						else{$(channelIconElement).css("margin-left", "0px");}
+
+						if (genreName == selectedChannelGenre && c == selectedChannelIndeces[currentPlayerIndex]) {
+							$(channelIconElement).css("box-shadow", "white 0px 0px 10px 1px");
+
+							var musicLevelsElement = document.createElement("img");
+
+							$(musicLevelsElement).height($(channelIconElement).height()/3);
+							$(musicLevelsElement).width($(channelIconElement).width());
+							$(musicLevelsElement).attr("src", "Images/levels.gif");
+							$(musicLevelsElement).attr("class", "selectedChannelOverlay");
+							$(musicLevelsElement).css("position", "absolute");
+							$(musicLevelsElement).css("left", parseFloat($(channelIconElement).css("margin-left")));
+							$(musicLevelsElement).css("bottom", 0);
+							$(musicLevelsElement).css("filter", "hue-rotate(" + Math.floor(Math.random() * 360) + "deg) drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black)");
+							$(channelIconContainer).append(musicLevelsElement);
+						}
+
+						$(tabContent).append(channelIconContainer);
+					}
+				});
+				break;
+		}
+
+
 
 		$("#musicSources").tabs().tabs('destroy').tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
         $("#musicSources li").removeClass('ui-corner-top').addClass('ui-corner-left');
@@ -366,7 +439,7 @@
 		window.setInterval(function() {
 			LoopAnimate();
 		}, 10000);
-		populateStreamList();
+		populateSourceList();
 		setMoonPhase();
 		$('[id$="musicSources"]').hide();
 
