@@ -160,7 +160,12 @@
 			width: '425',
 			videoId: 'cdKop6aixVE',  // Fireplace
 			events: {
-			'onReady': onPlayerReadySidePlayers
+			'onReady': onPlayerReadySidePlayers,
+      'onStateChange': function(event) {
+          if (event.data === YT.PlayerState.ENDED) {
+						playerLeft.playVideo();
+					}
+				}
 			}
 		});
 		mainYoutubePlayer = new YT.Player('youtubeMusicPlayer', { // Main Player
@@ -169,7 +174,12 @@
 			width: '525',
 			videoId: youtubeChannels[Object.keys(youtubeChannels)[0]][0], // First Video in first tab
 			events: {
-			'onReady': onPlayerReadyMainYoutubePlayer
+			'onReady': onPlayerReadyMainYoutubePlayer,
+      'onStateChange': function(event) {
+          if (event.data === YT.PlayerState.ENDED) {
+						mainYoutubePlayer.playVideo();
+					}
+				}
 			}
 		});
 		playerRight = new YT.Player('playerRight', {
@@ -178,7 +188,12 @@
 			width: '425',
 			videoId: 'aDfZ6STAfqA', // Rain
 			events: {
-			'onReady': onPlayerReadySidePlayers
+			'onReady': onPlayerReadySidePlayers,
+      'onStateChange': function(event) {
+          if (event.data === YT.PlayerState.ENDED) {
+						playerRight.playVideo();
+					}
+				}
 			}
 		});
 	}
@@ -189,7 +204,6 @@
 		else{event.target.setVolume(30);}
 		event.target.seekTo(0);
 		event.target.playVideo();
-		console.log("playing");
 	}
 
 	// 4. The API will call this function when the video player is ready.
