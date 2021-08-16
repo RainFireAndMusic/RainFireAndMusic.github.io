@@ -120,7 +120,7 @@ button {
 #playerTabsContainer {
 	width: 525px;
 	position: absolute;
-	top: -38px; // .tabIcon height + #playerTabsContainer > div[id$="Tab"] padding
+	top: -52px; // .tabIcon height + #playerTabsContainer > div[id$="Tab"] padding
 }
 
 #playerTabsContainer div:first-child {
@@ -131,11 +131,11 @@ button {
 	background-color: white;
 	display: inline-block;
 	opacity: 0.3;
-	padding-top: 3px;
-	padding-left: 3px;
-	padding-right: 3px;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
 	position: relative;
-	top: 5px;
+	top: 12px;
 }
 
 #playerTabsContainer > div[id$="Tab"]:hover {
@@ -145,7 +145,7 @@ button {
 
 #playerTabsContainer > div[id$="Tab"].selectedTab {
 	opacity: 0.7;
-	padding-bottom: 5px;
+	padding-bottom: 12px;
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
 	top: 0px;
@@ -226,26 +226,49 @@ all: unset;
 	width: 1px;
 }
 
+div[id$="musicSources"], #searchViewButton {
+	background: rgb(255, 255, 255, .05);
+}
+
 div[id$="musicSources"] {
 	border: unset !important;
 	border-radius: 0px 0px 10px 10px !important;
-	background: rgb(255, 255, 255, .05);
-	bottom: -149px; /* 0 - height(109) - padding-top - padding-bottom */
+	top: 295px; /* height of the main player */
 	width: calc(100% - 70px); /* subtracted value is ((margin-right*2) + padding-right + padding-left) */
 	margin-right: 15px;
 	padding: 20px;
 	position: absolute;
 	right: 0;
 	/*overflow-x: scroll;*/
-	overflow-y: hidden;
+	//overflow-y: hidden;
 	white-space: nowrap;
+}
+
+#searchViewButton {
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	height: 25px;
+	left: -35px;
+	padding: 5px;
+	position: absolute;
+	width: 25px;
+}
+
+#searchViewButton img {
+	opacity: .5;
+	height: 100%;
+	width: 100%;
+}
+
+#searchViewButton:hover {
+	background: rgb(255, 255, 255, .2) !important;
 }
 
 div[id$="musicSources"] img{
 	opacity: .5;
 }
 
-div[id$="musicSources"]:hover {
+div[id$="musicSources"]:hover, div[id$="musicSources"]:hover #searchViewButton {
     background: rgb(255, 255, 255, .08);
 }
 
@@ -255,7 +278,7 @@ div[id$="musicSources"]:hover img{
 
 div[id$="musicSources"] img:hover{
 	opacity: .85;
-    cursor: pointer;
+  cursor: pointer;
 }
 
 div[id$="musicSources"] img:active{
@@ -281,6 +304,12 @@ div[id$="musicSources"]::-webkit-scrollbar-thumb, div[id$="musicSources"]::-moz-
 	width: 1px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: grey;
+}
+
+#youtubeSearch {
+	max-height: 250px;
+	width: 100%;
+	background-color: red;
 }
 
 #dummyDiv{

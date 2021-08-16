@@ -289,13 +289,25 @@
 		populateSourceList();
 	}
 
+	function toggleSearchView(){
+		$("#defaultMusicSources").toggle();
+		$("#youtubeSearch").toggle();
+	}
+
+	function searchYoutube(){
+		var searchString = $("#searchInput").val();
+
+	  var results = YouTube.Search.list('id,snippet', {q: 'dogs', maxResults: 25});// TODO: These parms
+	}
+
 	//Populate the list of streams
 	function populateSourceList() {
-		$("#musicSources *:not('#genreTabStrip')").remove();
+		$("#defaultMusicSources *").remove();
 		var channelsInSource = sources[currentPlayerIndex];
 
 		switch(currentPlayerIndex) {
 			case PLAYER_INDEX_TWITCH:
+				$("#searchViewButton").hide();
 
 				var tabContent =  document.createElement("div");
 				$(tabContent).attr("id", "TwitchTabContent");
@@ -305,7 +317,7 @@
 				$(tabContent).css("display", "flex");
 				$(tabContent).css("justify-content", "space-evenly");
 				$(tabContent).css("padding", 0);
-				$("#musicSources").append(tabContent);
+				$("#defaultMusicSources").append(tabContent);
 
 				for (let c=0; c < channelsInSource.length; c++){
 					var channelIconContainer = document.createElement("div");
@@ -341,6 +353,11 @@
 				}
 				break;
 			case PLAYER_INDEX_YOUTUBE:
+				$("#searchViewButton").show();
+				var searchViewButton =  document.createElement("div");
+				$(searchViewButton).attr("id", "searchViewButton");
+				$(tabContent).css("padding", 5);
+
 				$.each(channelsInSource, function(genreName, channelsInTab){
 					var tabNameAsId = genreName.replace(new RegExp(" ", "g"), "_") + "TabContent";
 
@@ -361,7 +378,7 @@
 					$(tabContent).css("display", "flex");
 					$(tabContent).css("justify-content", "space-evenly");
 					$(tabContent).css("padding", 0);
-					$("#musicSources").append(tabContent);
+					$("#defaultMusicSources").append(tabContent);
 
 					for (let c=0; c < channelsInTab.length; c++){
 						var channelIconContainer = document.createElement("div");
@@ -398,8 +415,6 @@
 				});
 				break;
 		}
-
-
 
 		$("#musicSources").tabs().tabs('destroy').tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
         $("#musicSources li").removeClass('ui-corner-top').addClass('ui-corner-left');
