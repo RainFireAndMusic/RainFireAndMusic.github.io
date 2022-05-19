@@ -486,6 +486,9 @@
 		moonPhaseElement.css("border", "none");
 
 		var moonPercentThroughCycle = getMoonPercentThroughCycle();
+		var isWaxing = moonPercentThroughCycle <= 0.5;
+		moonPhaseElement.css({"transform" : (isWaxing ? "rotateZ(25deg)" : "rotateZ(-25deg)")});
+		console.log(moonPhaseElement.css("transform"));
 		var moonPercentFilled = (moonPercentThroughCycle * 2) <= 1 ? moonPercentThroughCycle * 2 : 1 - ((moonPercentThroughCycle * 2) - 1);
 		var moonPixelFilled = moonPercentFilled * moonPhaseElement.width();
 
