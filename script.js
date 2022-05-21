@@ -88,7 +88,7 @@
 
 	// Twitch
 	// channelName, channelIconUrl
- 	var twitchChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/f77898d7-223d-4600-a218-ed8267991538-profile_image-70x70.png"],
+ 	var twitchChannels = [["chillhopmusic", "https://static-cdn.jtvnw.net/jtv_user_pictures/50b96cf1-bf61-4bf7-8fe1-6f5e1410047f-profile_image-70x70.png"],
 													["relaxbeats"   , "https://static-cdn.jtvnw.net/jtv_user_pictures/relaxbeats-profile_image-76acee755ecb616f-70x70.jpeg"],
 													["chilledcattv" , "https://static-cdn.jtvnw.net/jtv_user_pictures/dd95b22b-4cbe-4083-ae5c-a6e17ac7a398-profile_image-70x70.png"]];
 
