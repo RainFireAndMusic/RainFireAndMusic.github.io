@@ -93,7 +93,7 @@
 													["chilledcattv" , "https://static-cdn.jtvnw.net/jtv_user_pictures/dd95b22b-4cbe-4083-ae5c-a6e17ac7a398-profile_image-70x70.png"]];
 
 	// YouTube
-	var videogameVideoIds = ["g9c2WTCj0Pk", "p7TAvWdilcY", "ebmwJnhtMgY"]; // Minecraft, Gibli, World of Warcraft
+	var videogameVideoIds = ["g9c2WTCj0Pk", "bgIBFEtJQv4", "ebmwJnhtMgY"]; // Minecraft, Lord of the Rings, World of Warcraft
  	var youtubeChannels = {};
 	youtubeChannels["VideoGame"] = videogameVideoIds;
 
